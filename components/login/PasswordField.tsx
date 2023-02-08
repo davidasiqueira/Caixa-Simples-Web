@@ -39,6 +39,7 @@ export const PasswordField = forwardRef<HTMLInputElement, InputProps>(
             />
           </InputRightElement>
           <Input
+            placeholder="********"
             backgroundColor={white100}
             id="password"
             ref={mergeRef}
