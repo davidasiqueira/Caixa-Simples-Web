@@ -1,16 +1,10 @@
 import { Flex } from "@chakra-ui/react";
 import SidebarWithHeader from "../components/sidebar/sidebar";
 
-
 const Dashbord = () => {
-  return (
+  return <SidebarWithHeader>
     
-      <SidebarWithHeader>
-      
-      </SidebarWithHeader>
-   
-  
-  )
+  </SidebarWithHeader>;
 };
 
 export default Dashbord;

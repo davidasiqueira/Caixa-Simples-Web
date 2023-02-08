@@ -3,25 +3,40 @@ import {
   Button,
   Checkbox,
   Container,
-  Divider,
+  // Divider,
   FormControl,
   FormLabel,
   Heading,
   HStack,
   Input,
   Stack,
-  Text,
+  // Text,
   useColorMode,
   useColorModeValue,
 } from "@chakra-ui/react";
+import { useState } from "react";
 import { Logo } from "../components/login/Logo";
-import { OAuthButtonGroup } from "../components/login/OAuthButtonGroup";
+// import { OAuthButtonGroup } from "../components/login/OAuthButtonGroup";
 import { PasswordField } from "../components/login/PasswordField";
 
 const IndexPage = () => {
-  const { toggleColorMode } = useColorMode();
   const gray100 = useColorModeValue("gray.100", "gray.700");
   const white100 = useColorModeValue("whiteAlpha.700", "gray.600");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [user, setUser] = useState({
+    username: "",
+    password: "",
+  });
+
+  function updateUser(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setUser(() => ({
+      username: email,
+      password: password,
+    }));
+  }
+
   return (
     <Container
       maxW="lg"
@@ -51,7 +66,7 @@ const IndexPage = () => {
           borderRadius={{ base: "none", sm: "xl" }}
           backgroundColor={gray100}
         >
-          <Stack spacing="6">
+          <Stack as="form" spacing="6" onSubmit={updateUser}>
             <Stack spacing="5">
               <FormControl>
                 <FormLabel htmlFor="email">Email</FormLabel>
@@ -60,9 +75,12 @@ const IndexPage = () => {
                   placeholder="email@email.com"
                   id="email"
                   type="email"
+                  onChange={(event) => setEmail(event.target.value)}
                 />
               </FormControl>
-              <PasswordField />
+              <PasswordField
+                onChange={(event) => setPassword(event.target.value)}
+              />
             </Stack>
             <HStack justify="space-between">
               <Checkbox defaultChecked>Remember me</Checkbox>
@@ -71,8 +89,10 @@ const IndexPage = () => {
               </Button>
             </HStack>
             <Stack spacing="6">
-            <Button variant="primary">Sign in</Button>
-            {/* <HStack>
+              <Button variant="primary" type="submit" cursor="pointer">
+                Sign in
+              </Button>
+              {/* <HStack>
               <Divider />
               <Text fontSize="sm" whiteSpace="nowrap" color="muted">
                 or continue with
@@ -80,7 +100,7 @@ const IndexPage = () => {
               <Divider />
             </HStack>
             <OAuthButtonGroup /> */}
-          </Stack>
+            </Stack>
           </Stack>
         </Box>
         {/* <Button onClick={toggleColorMode} backgroundColor="teal">
