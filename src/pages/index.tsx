@@ -29,19 +29,19 @@ const IndexPage = () => {
     username: "",
     password: "",
   });
-  const { signIn } = useContext(AuthContext)
+  const { signIn } = useContext(AuthContext);
 
   async function handleSignIn(data) {
     //fazer try catch
-    await signIn(data)
+    await signIn(data);
   }
 
-  function updateUser(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
+  function updateUser() {
     setUser(() => ({
       username: email,
       password: password,
     }));
+    handleSignIn(user)
   }
 
   return (
@@ -73,7 +73,7 @@ const IndexPage = () => {
           borderRadius={{ base: "none", sm: "xl" }}
           backgroundColor={gray100}
         >
-          <Stack as="form" spacing="6" onSubmit={updateUser}>
+          <Stack spacing="6">
             <Stack spacing="5">
               <FormControl>
                 <FormLabel htmlFor="email">Email</FormLabel>
@@ -96,7 +96,12 @@ const IndexPage = () => {
               </Button>
             </HStack>
             <Stack spacing="6">
-              <Button variant="primary" type="submit" cursor="pointer">
+              <Button
+                variant="primary"
+                type="button"
+                cursor="pointer"
+                onClick={updateUser}
+              >
                 Sign in
               </Button>
               {/* <HStack>
