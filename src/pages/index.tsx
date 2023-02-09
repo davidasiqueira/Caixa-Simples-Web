@@ -14,10 +14,11 @@ import {
   useColorMode,
   useColorModeValue,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Logo } from "../components/login/Logo";
 // import { OAuthButtonGroup } from "../components/login/OAuthButtonGroup";
 import { PasswordField } from "../components/login/PasswordField";
+import { AuthContext } from "../context/authContext";
 
 const IndexPage = () => {
   const gray100 = useColorModeValue("gray.100", "gray.700");
@@ -28,6 +29,12 @@ const IndexPage = () => {
     username: "",
     password: "",
   });
+  const { signIn } = useContext(AuthContext)
+
+  async function handleSignIn(data) {
+    //fazer try catch
+    await signIn(data)
+  }
 
   function updateUser(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
