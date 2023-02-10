@@ -43,11 +43,12 @@ import { AuthContext } from "../../context/authContext";
 interface LinkItemProps {
   name: string;
   icon: IconType;
+  link: string;
 }
 const LinkItems: Array<LinkItemProps> = [
-  { name: "Dashboard", icon: FiTrendingUp },
-  { name: "Caixa", icon: FaCashRegister },
-  { name: "Lançamentos", icon: BsTable },
+  { name: "Dashboard", icon: FiTrendingUp, link: "dashboard" },
+  { name: "Caixa", icon: FaCashRegister, link: "caixa" },
+  { name: "Lançamentos", icon: BsTable, link: "lancamentos" },
 ];
 
 export default function SidebarWithHeader({
@@ -110,7 +111,7 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
         <CloseButton display={{ base: "flex", md: "none" }} onClick={onClose} />
       </Flex>
       {LinkItems.map((link) => (
-        <NavItem key={link.name} icon={link.icon}>
+        <NavItem key={link.name} icon={link.icon} link={link.link}>
           {link.name}
         </NavItem>
       ))}
@@ -121,11 +122,12 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
 interface NavItemProps extends FlexProps {
   icon: IconType;
   children: ReactText;
+  link: string;
 }
-const NavItem = ({ icon, children, ...rest }: NavItemProps) => {
+const NavItem = ({ icon, children, link, ...rest }: NavItemProps) => {
   return (
     <Link
-      href="#"
+      href={link}
       style={{ textDecoration: "none" }}
       _focus={{ boxShadow: "none" }}
     >
