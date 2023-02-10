@@ -36,12 +36,12 @@ const IndexPage = () => {
     await signIn(data);
   }
 
-  function updateUser() {
+  async function updateUser() {
     setUser(() => ({
       username: email,
       password: password,
     }));
-    handleSignIn(user)
+    handleSignIn({ username: email, password: password });
   }
 
   return (

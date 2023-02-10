@@ -1,12 +1,13 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import axios from "axios";
-import { setCookie } from "nookies";
+import { setCookie, parseCookies, destroyCookie } from "nookies";
 import Router from "next/router";
 
 const AUTH_API_URL = "http://localhost:3030/auth/login";
+const ISVALID_API_URL = "http://localhost:3030/auth/isvalid?userId=";
 
 type User = {
-  useId: number;
+  userId: number;
   avatar: string;
   username: string;
 };
@@ -29,18 +30,48 @@ export function AuthProvider({ children }) {
 
   const isAuthenticated = !!user;
 
+  useEffect(() => {
+    const { "caixa-simples-token": token, "caixa-simples-userId": id } = parseCookies();
+    let numberId = Number(id);
+
+    if (token && id) {
+      const authStr = "Bearer ".concat(token);
+      axios
+        .get(ISVALID_API_URL + id, {
+          headers: {
+            Authorization: authStr,
+          },
+        }).then((response) => {
+          setUser({
+            userId: numberId,
+            username: response.data.username,
+            avatar: response.data.avatar,
+          });
+        }).catch((err) => {
+          destroyCookie(undefined, "caixa-simples-token");
+          Router.push("/");
+        });
+    }
+  }, []);
+
   async function signIn({ username, password }: Credentials) {
     try {
       const {
         data: { access_token, user },
-      } = await axios.post(AUTH_API_URL, {
-        username,
-        password,
-      },{});
+      } = await axios.post(
+        AUTH_API_URL,
+        {
+          username,
+          password,
+        },
+        {}
+      );
 
-      const token = access_token;
-      setCookie(undefined, "caixa-simples-token", token, {
+      setCookie(undefined, "caixa-simples-token", access_token, {
         maxAge: 300, // 5 minutes
+      });
+      setCookie(undefined, "caixa-simples-userId", user.userId, {
+        maxAge: 60 * 60 * 24 * 30, // 30 days
       });
 
       setUser(user);

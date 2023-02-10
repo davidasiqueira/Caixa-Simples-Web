@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useContext } from 'react';
 import {
   IconButton,
   Avatar,
@@ -44,6 +44,7 @@ import {
 import { IconType } from 'react-icons';
 import { ReactText } from 'react';
 import { Logo } from '../login/Logo';
+import { AuthContext } from '../../context/authContext';
 
 interface LinkItemProps {
   name: string;
@@ -164,6 +165,8 @@ interface MobileProps extends FlexProps {
 const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
   const { colorMode, toggleColorMode } = useColorMode()
 
+  const { user } = useContext(AuthContext)
+
   return (
     <Flex
       ml={{ base: 0, md: 60 }}
@@ -212,9 +215,7 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
               <HStack>
                 <Avatar
                   size={'sm'}
-                  src={
-                    'https://media.discordapp.net/attachments/668160716804718597/1066892562041933965/image.png?width=465&height=458'
-                  }
+                  src={user?.avatar}
                 />
                 <VStack
                   display={{ base: 'none', md: 'flex' }}
