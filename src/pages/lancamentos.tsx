@@ -5,15 +5,15 @@ import { AuthContext } from "../context/authContext";
 import { parseCookies } from "nookies";
 
 
-const Dashboard = () => {
+const Lancamentos = () => {
   const { user } = useContext(AuthContext);
 
-  return <SidebarWithHeader>
+  return (<SidebarWithHeader>
     
-  </SidebarWithHeader>;
+  </SidebarWithHeader>);
 };
 
-export default Dashboard;
+export default Lancamentos;
 
 // export const getServerSideProps: GetServerSideProps = async (ctx) => {
 //   const { "caixa-simples-token": token } = parseCookies(ctx);

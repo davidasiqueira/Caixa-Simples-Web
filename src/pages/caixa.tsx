@@ -5,7 +5,7 @@ import { AuthContext } from "../context/authContext";
 import { parseCookies } from "nookies";
 
 
-const Dashboard = () => {
+const Caixa = () => {
   const { user } = useContext(AuthContext);
 
   return <SidebarWithHeader>
@@ -13,7 +13,7 @@ const Dashboard = () => {
   </SidebarWithHeader>;
 };
 
-export default Dashboard;
+export default Caixa;
 
 // export const getServerSideProps: GetServerSideProps = async (ctx) => {
 //   const { "caixa-simples-token": token } = parseCookies(ctx);
