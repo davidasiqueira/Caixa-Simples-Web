@@ -18,26 +18,26 @@ interface Props {
 }
 
 const CaixaForm = ({ setLancamento }: Props) => {
-  //radio buttons
-  const options = ["Entrada", "Saida"];
+  // Form
+  const [valor, setValor] = useState<string>("cash");
+  const [conta, setConta] = useState<string>("Entrada");
+  const [descricao, setDescricao] = useState<string>();
 
+  //radio buttons
+
+  const options = ["Entrada", "Saida"];
+  const [movimento, setMovimento] = useState<string>();
   const { getRootProps, getRadioProps } = useRadioGroup({
     name: "operacao",
     defaultValue: "Entrada",
-    onChange: console.log,
+    onChange: setMovimento,
   });
   const group = getRootProps();
 
-  // Form
-
-  const [movimento, setMovimento] = useState<string>();
-  const [valor, setValor] = useState<string>();
-  const [conta, setConta] = useState<string>();
-  const [descricao, setDescricao] = useState<string>();
-
   //Update lancamento
 
-  const updateLancamento = () => {
+  const updateLancamento = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     setLancamento((actualState) => [
       ...actualState,
       {
@@ -51,52 +51,69 @@ const CaixaForm = ({ setLancamento }: Props) => {
   };
 
   return (
-    <Flex width="400px" height="300px" margin="auto">
-      <Flex flexDir="column" mt="auto" mb="auto" p="10px" rowGap="20px">
-        <HStack {...group} display="flex" flexDir="column" rowGap="20px">
-          {options.map((value) => {
-            const radio = getRadioProps({ value });
-            return (
-              <RadioCard key={value} {...radio} onChange={(event) => setMovimento(event.target.value)}>
-                {value}
-              </RadioCard>
-            );
-          })}
-        </HStack>
-        <Select
-          cursor="pointer"
-          ml="8px"
-          variant="filled"
-          placeholder="Conta"
-          width="120px"
-          onChange={(event) => setConta(event.target.value)}
-        >
-          <option value="cash">Cash</option>
-          <option value="pix">Pix</option>
-          <option value="cartao">Cartão</option>
-        </Select>
-      </Flex>
-      <Flex flexDir="column" ml="10px" mt="auto" mb="auto" rowGap="20px">
-        <InputGroup>
-          <InputLeftElement
-            pointerEvents="none"
-            color="gray.300"
-            fontSize="1.2em"
-            children="$"
-          />
-          <Input size="lg" placeholder="Enter amount" type='number' onChange={(event) => setValor(event.target.value)} />
-        </InputGroup>
-        <InputGroup mt="">
-          <InputLeftElement
-            pointerEvents="none"
-            children={<EditIcon color="gray.300" />}
-          />
-          <Input size="lg" type="text" placeholder="Descrição" onChange={(event) => setDescricao(event.target.value)}/>
-        </InputGroup>
+    <form onSubmit={updateLancamento}>
+      <Flex width="400px" height="300px" margin="auto">
+        <Flex flexDir="column" mt="auto" mb="auto" p="10px" rowGap="20px">
+          <HStack {...group} display="flex" flexDir="column" rowGap="20px">
+            {options.map((value) => {
+              const radio = getRadioProps({ value });
+              return (
+                <RadioCard key={value} {...radio} required>
+                  {value}
+                </RadioCard>
+              );
+            })}
+          </HStack>
+          <Select
+            required
+            cursor="pointer"
+            ml="8px"
+            variant="filled"
+            width="120px"
+            defaultValue="Cash"
+            onChange={(event) => setConta(event.target.value)}
+          >
+            <option value="cash">Cash</option>
+            <option value="pix">Pix</option>
+            <option value="cartao">Cartão</option>
+          </Select>
+        </Flex>
+        <Flex flexDir="column" ml="10px" mt="auto" mb="auto" rowGap="20px">
+          <InputGroup>
+            <InputLeftElement
+              pointerEvents="none"
+              color="gray.300"
+              fontSize="1.2em"
+              children="$"
+            />
+            <Input
+              required
+              size="lg"
+              placeholder="Enter amount"
+              type="number"
+              onChange={(event) => setValor(event.target.value)}
+            />
+          </InputGroup>
+          <InputGroup mt="">
+            <InputLeftElement
+              pointerEvents="none"
+              children={<EditIcon color="gray.300" />}
+            />
+            <Input
+              required
+              size="lg"
+              type="text"
+              placeholder="Descrição"
+              onChange={(event) => setDescricao(event.target.value)}
+            />
+          </InputGroup>
 
-        <Button bg="#4EAB02" onClick={updateLancamento}>lançar</Button>
+          <Button type="submit" bg="#4EAB02">
+            lançar
+          </Button>
+        </Flex>
       </Flex>
-    </Flex>
+    </form>
   );
 };
 
