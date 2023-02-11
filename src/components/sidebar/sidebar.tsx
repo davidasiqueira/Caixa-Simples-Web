@@ -78,7 +78,7 @@ export default function SidebarWithHeader({
       </Drawer>
       {/* mobilenav */}
       <MobileNav onOpen={onOpen} />
-      <Box ml={{ base: 0, md: 60 }} p="4">
+      <Box ml={{ base: 0, md: 60 }} p="4" minH="calc(100vh - 50px)">
         {children}
       </Box>
     </Box>
@@ -132,6 +132,7 @@ const NavItem = ({ icon, children, link, ...rest }: NavItemProps) => {
       _focus={{ boxShadow: "none" }}
     >
       <Flex
+        fontWeight="500"
         align="center"
         p="4"
         mx="4"
@@ -139,7 +140,7 @@ const NavItem = ({ icon, children, link, ...rest }: NavItemProps) => {
         role="group"
         cursor="pointer"
         _hover={{
-          bg: "cyan.400",
+          bg: "#007AFF",
           color: "white",
         }}
         {...rest}

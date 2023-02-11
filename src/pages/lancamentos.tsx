@@ -3,14 +3,16 @@ import { useContext } from "react";
 import SidebarWithHeader from "../components/sidebar/sidebar";
 import { AuthContext } from "../context/authContext";
 import { parseCookies } from "nookies";
-
+import { Box, Flex, useColorModeValue, Text } from "@chakra-ui/react";
 
 const Lancamentos = () => {
   const { user } = useContext(AuthContext);
 
-  return (<SidebarWithHeader>
-    
-  </SidebarWithHeader>);
+  return (
+    <SidebarWithHeader>
+      
+    </SidebarWithHeader>
+  );
 };
 
 export default Lancamentos;
