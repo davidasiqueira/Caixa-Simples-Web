@@ -9,9 +9,16 @@ import {
   Select,
   useRadioGroup,
 } from "@chakra-ui/react";
+import { useState } from "react";
+import { LancamentoType } from "../../types/lancamento";
 import { RadioCard } from "./radioButton";
 
-const CaixaForm = () => {
+interface Props {
+  setLancamento: React.Dispatch<React.SetStateAction<LancamentoType[]>>;
+}
+
+const CaixaForm = ({ setLancamento }: Props) => {
+  //radio buttons
   const options = ["Entrada", "Saida"];
 
   const { getRootProps, getRadioProps } = useRadioGroup({
@@ -21,6 +28,28 @@ const CaixaForm = () => {
   });
   const group = getRootProps();
 
+  // Form
+
+  const [movimento, setMovimento] = useState<string>();
+  const [valor, setValor] = useState<string>();
+  const [conta, setConta] = useState<string>();
+  const [descricao, setDescricao] = useState<string>();
+
+  //Update lancamento
+
+  const updateLancamento = () => {
+    setLancamento((actualState) => [
+      ...actualState,
+      {
+        movimento,
+        valor: Number(valor),
+        conta,
+        descricao,
+        hora: Date.now(),
+      },
+    ]);
+  };
+
   return (
     <Flex width="400px" height="300px" margin="auto">
       <Flex flexDir="column" mt="auto" mb="auto" p="10px" rowGap="20px">
@@ -28,7 +57,7 @@ const CaixaForm = () => {
           {options.map((value) => {
             const radio = getRadioProps({ value });
             return (
-              <RadioCard key={value} {...radio}>
+              <RadioCard key={value} {...radio} onChange={(event) => setMovimento(event.target.value)}>
                 {value}
               </RadioCard>
             );
@@ -40,6 +69,7 @@ const CaixaForm = () => {
           variant="filled"
           placeholder="Conta"
           width="120px"
+          onChange={(event) => setConta(event.target.value)}
         >
           <option value="cash">Cash</option>
           <option value="pix">Pix</option>
@@ -54,17 +84,17 @@ const CaixaForm = () => {
             fontSize="1.2em"
             children="$"
           />
-          <Input size="lg" placeholder="Enter amount" />
+          <Input size="lg" placeholder="Enter amount" type='number' onChange={(event) => setValor(event.target.value)} />
         </InputGroup>
         <InputGroup mt="">
           <InputLeftElement
             pointerEvents="none"
             children={<EditIcon color="gray.300" />}
           />
-          <Input size="lg" type="text" placeholder="Descrição" />
+          <Input size="lg" type="text" placeholder="Descrição" onChange={(event) => setDescricao(event.target.value)}/>
         </InputGroup>
 
-        <Button bg="#4EAB02">lançar</Button>
+        <Button bg="#4EAB02" onClick={updateLancamento}>lançar</Button>
       </Flex>
     </Flex>
   );

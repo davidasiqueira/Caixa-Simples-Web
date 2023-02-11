@@ -1,19 +1,20 @@
 import { GetServerSideProps } from "next";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import SidebarWithHeader from "../components/sidebar/sidebar";
 import { AuthContext } from "../context/authContext";
 import { parseCookies } from "nookies";
-import {
-  Box,
-  Flex,
-  Heading,
-  useColorModeValue,
-} from "@chakra-ui/react";
+import { Box, Flex, Heading, useColorModeValue } from "@chakra-ui/react";
 import CaixaTable from "../components/caixa/table";
 import CaixaForm from "../components/caixa/form";
+import Lancamentos from "./lancamentos";
+import { LancamentoType } from "../types/lancamento";
+
+
 
 const Caixa = () => {
   const { user } = useContext(AuthContext);
+  const [ lancamentos, setLancamento ] = useState<LancamentoType[]>([]);
+
   return (
     <SidebarWithHeader>
       <Flex
@@ -39,7 +40,7 @@ const Caixa = () => {
           <Heading as="h3" size="md">
             Lançamentos
           </Heading>
-          <CaixaForm />
+          <CaixaForm setLancamento={setLancamento} />
         </Box>
         <Box
           width={["100%", "100%", "100%", "32.5%", "32.5%"]}
