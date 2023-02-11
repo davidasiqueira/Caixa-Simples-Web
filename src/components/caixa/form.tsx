@@ -1,5 +1,6 @@
 import { EditIcon } from "@chakra-ui/icons";
 import {
+  Box,
   Button,
   Flex,
   HStack,
@@ -51,6 +52,7 @@ const CaixaForm = ({ setLancamento }: Props) => {
   };
 
   return (
+    <Box margin='auto'>
     <form onSubmit={updateLancamento}>
       <Flex width="400px" height="300px" margin="auto">
         <Flex flexDir="column" mt="auto" mb="auto" p="10px" rowGap="20px">
@@ -114,6 +116,7 @@ const CaixaForm = ({ setLancamento }: Props) => {
         </Flex>
       </Flex>
     </form>
+    </Box>
   );
 };
 
