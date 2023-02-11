@@ -54,7 +54,7 @@ const Caixa = () => {
           <Heading as="h3" size="md">
             Ultimos Lançamentos
           </Heading>
-          <CaixaTable />
+          <CaixaTable lancamentos={lancamentos} />
         </Box>
       </Flex>
     </SidebarWithHeader>

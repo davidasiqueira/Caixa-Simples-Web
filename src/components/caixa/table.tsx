@@ -7,11 +7,13 @@ import {
   Thead,
   Tr,
 } from "@chakra-ui/react";
+import { LancamentoType } from "../../types/lancamento";
 
-const CaixaTable = () => {
+interface Props {
+  lancamentos: LancamentoType[];
+}
 
-  
-
+const CaixaTable = ({ lancamentos }: Props) => {
   return (
     <TableContainer mt="20px" height="calc(100vh - 170px)" overflowY="auto">
       <Table variant="simple" size="sm">
@@ -23,96 +25,15 @@ const CaixaTable = () => {
           </Tr>
         </Thead>
         <Tbody>
-          <Tr>
-            <Td>Entrada</Td>
-            <Td>R$ 25,90</Td>
-            <Td>Pix</Td>
-          </Tr>
-          <Tr>
-            <Td>Entrada</Td>
-            <Td>R$ 25,90</Td>
-            <Td>Cartão</Td>
-          </Tr>
-          <Tr>
-            <Td>Entrada</Td>
-            <Td>R$ 25,90</Td>
-            <Td>Cash</Td>
-          </Tr>
-          <Tr>
-            <Td>Entrada</Td>
-            <Td>R$ 25,90</Td>
-            <Td>Pix</Td>
-          </Tr>
-          <Tr>
-            <Td>Entrada</Td>
-            <Td>R$ 25,90</Td>
-            <Td>Cartão</Td>
-          </Tr>
-          <Tr>
-            <Td>Entrada</Td>
-            <Td>R$ 25,90</Td>
-            <Td>Cash</Td>
-          </Tr>
-          <Tr>
-            <Td>Entrada</Td>
-            <Td>R$ 25,90</Td>
-            <Td>Pix</Td>
-          </Tr>
-          <Tr>
-            <Td>Entrada</Td>
-            <Td>R$ 25,90</Td>
-            <Td>Cartão</Td>
-          </Tr>
-          <Tr>
-            <Td>Entrada</Td>
-            <Td>R$ 25,90</Td>
-            <Td>Cash</Td>
-          </Tr>
-          <Tr>
-            <Td>Entrada</Td>
-            <Td>R$ 25,90</Td>
-            <Td>Pix</Td>
-          </Tr>
-          <Tr>
-            <Td>Entrada</Td>
-            <Td>R$ 25,90</Td>
-            <Td>Cartão</Td>
-          </Tr>
-          <Tr>
-            <Td>Entrada</Td>
-            <Td>R$ 25,90</Td>
-            <Td>Cash</Td>
-          </Tr>
-          <Tr>
-            <Td>Entrada</Td>
-            <Td>R$ 25,90</Td>
-            <Td>Pix</Td>
-          </Tr>
-          <Tr>
-            <Td>Entrada</Td>
-            <Td>R$ 25,90</Td>
-            <Td>Cartão</Td>
-          </Tr>
-          <Tr>
-            <Td>Entrada</Td>
-            <Td>R$ 25,90</Td>
-            <Td>Cash</Td>
-          </Tr>{" "}
-          <Tr>
-            <Td>Entrada</Td>
-            <Td>R$ 25,90</Td>
-            <Td>Pix</Td>
-          </Tr>
-          <Tr>
-            <Td>Entrada</Td>
-            <Td>R$ 25,90</Td>
-            <Td>Cartão</Td>
-          </Tr>
-          <Tr>
-            <Td>Entrada</Td>
-            <Td>R$ 25,90</Td>
-            <Td>Cash</Td>
-          </Tr>
+          {lancamentos.map((lancamento) => {
+            return (
+              <Tr>
+                <Td>{lancamento.movimento}</Td>
+                <Td>R${lancamento.valor}</Td>
+                <Td>{lancamento.conta}</Td>
+              </Tr>
+            );
+          })}
         </Tbody>
       </Table>
     </TableContainer>
