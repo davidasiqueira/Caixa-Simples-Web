@@ -24,17 +24,6 @@ const Dashboard = () => {
   return (
     <SidebarWithHeader>
       <Flex width="100%" minH="calc(100vh - 82px)" flexDirection="column">
-        <Box
-          width="100%"
-          minH="calc(100vh - 82px)"
-          border="1px solid"
-          borderColor={useColorModeValue("gray.200", "gray.700")}
-          bg={useColorModeValue("white", "gray.800")}
-          borderRadius="8px"
-          p="20px"
-          display="flex"
-          flexDirection="column"
-        >
           {/* Cards */}
           <Flex
             minH="270px"
@@ -129,7 +118,7 @@ const Dashboard = () => {
             </Flex>
           </Flex>
           <Flex></Flex>
-        </Box>
+        
       </Flex>
     </SidebarWithHeader>
   );

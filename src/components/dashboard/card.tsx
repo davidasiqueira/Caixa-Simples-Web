@@ -63,15 +63,17 @@ const DashboardCard = ({
     <Card
       width="24%"
       border="1px solid"
-      borderColor={useColorModeValue("gray.200", "gray.700")}
       minH="100%"
-      minW='230px'
-      maxW='240px'
-      bg={useColorModeValue("gray.100", "gray.900")}
+      minW="230px"
+      maxW="240px"
       p="16px"
-      display='flex'
+      display="flex"
+      borderColor={useColorModeValue("gray.200", "gray.700")}
+      bg={useColorModeValue("white", "gray.800")}
     >
-      <Heading size="sm" mb='15px'>{accontName}</Heading>
+      <Heading size="sm" mb="15px">
+        {accontName}
+      </Heading>
       <Stat>
         <StatLabel>Média ultimos 30 dias</StatLabel>
         <StatNumber color={cardColor}>R$ {mediaUltimos30Dias}</StatNumber>
@@ -85,12 +87,12 @@ const DashboardCard = ({
         </StatHelpText>
       </Stat>
       <Stack>
-      <ReactApexChart
-            options={infoGrafico.options}
-            series={infoGrafico.series}
-            width={"100%"}
-            height={90}
-          />
+        <ReactApexChart
+          options={infoGrafico.options}
+          series={infoGrafico.series}
+          width={"100%"}
+          height={90}
+        />
       </Stack>
     </Card>
   );
