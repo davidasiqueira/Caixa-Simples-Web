@@ -9,32 +9,28 @@ import {
   StatNumber,
   useColorModeValue,
 } from "@chakra-ui/react";
-import { ChartConfig } from "../../types/lancamento";
+import { CardData, ChartConfig } from "../../types/lancamento";
 import dynamic from "next/dynamic";
 const ReactApexChart = dynamic(() => import("react-apexcharts"), {
   ssr: false,
 });
 
-interface Props {
-  accontName: string;
-  mediaUltimos30Dias: number;
-  totalHoje: number;
-  infoGrafico: ChartConfig;
-  cardColor: string;
-}
-
-const DashboardCard = ({
-  accontName,
-  mediaUltimos30Dias,
-  totalHoje,
-  infoGrafico,
-  cardColor,
-}: Props) => {
-  let fracaoDototal = Math.round(
+const DashboardCard = ( { accountName, registro30Dias, cardColor }: CardData) => {
+  
+  const mediaUltimos30Dias = Number(
+    (
+      registro30Dias.series[0].data.reduce(
+        (acumulador, data) => data + acumulador,
+        0
+      ) / 30
+    ).toFixed(2)
+  );
+  const totalHoje = registro30Dias.series[0].data.at(-1);
+  const fracaoDototal = Math.round(
     (totalHoje - mediaUltimos30Dias) / (mediaUltimos30Dias / 100)
   );
 
-  infoGrafico.options = {
+  registro30Dias.options = {
     chart: {
       type: "line",
       sparkline: {
@@ -72,7 +68,7 @@ const DashboardCard = ({
       bg={useColorModeValue("white", "gray.800")}
     >
       <Heading size="sm" mb="15px">
-        {accontName}
+        {accountName}
       </Heading>
       <Stat>
         <StatLabel>Média ultimos 30 dias</StatLabel>
@@ -83,13 +79,13 @@ const DashboardCard = ({
         <StatNumber color={cardColor}>R$ {totalHoje}</StatNumber>
         <StatHelpText>
           <StatArrow type={fracaoDototal > 0 ? "increase" : "decrease"} />
-          {fracaoDototal}
+          {fracaoDototal + "%"}
         </StatHelpText>
       </Stat>
       <Stack>
         <ReactApexChart
-          options={infoGrafico.options}
-          series={infoGrafico.series}
+          options={registro30Dias.options}
+          series={registro30Dias.series}
           width={"100%"}
           height={90}
         />

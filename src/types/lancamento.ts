@@ -6,9 +6,17 @@ export type LancamentoType = {
   hora: number;
 };
 export interface ChartConfig {
-  series: [{
-    name: string
-    data: number[]
-  }]
-  options?: {}
+  series: [
+    {
+      name: string;
+      data: number[];
+    }
+  ];
+  options?: {};
 }
+
+export type CardData = {
+  accountName: string;
+  registro30Dias: ChartConfig;
+  cardColor: string;
+};
