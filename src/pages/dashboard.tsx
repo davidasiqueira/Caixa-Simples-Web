@@ -78,7 +78,7 @@ const mockCardData: CardData[] = [
 
 const Dashboard = () => {
   const { user } = useContext(AuthContext);
-  const [dashboardData, setDashboardData] = useState<CardData[]>();
+  const [mainChartData, setMainChartData] = useState<CardData>(mockCardData[0]);
 
   return (
     <SidebarWithHeader>
@@ -102,10 +102,12 @@ const Dashboard = () => {
             flexDirection={["column", "column", "row", "row", "row"]}
           >
             <DashboardCard
-              {...mockCardData[0]}
+              cardData={{ ...mockCardData[0] }}
+              setMainChartData={setMainChartData}
             />
             <DashboardCard
-              {...mockCardData[1]}
+              cardData={{ ...mockCardData[1] }}
+              setMainChartData={setMainChartData}
             />
           </Flex>
           <Flex
@@ -114,33 +116,18 @@ const Dashboard = () => {
             flexDirection={["column", "column", "row", "row", "row"]}
           >
             <DashboardCard
-              {...mockCardData[2]}
+              cardData={{ ...mockCardData[2] }}
+              setMainChartData={setMainChartData}
             />
             <DashboardCard
-              {...mockCardData[3]}
+              cardData={{ ...mockCardData[3] }}
+              setMainChartData={setMainChartData}
             />
           </Flex>
         </Flex>
         {/* MainChart */}
         <Flex alignSelf="center" w="91%">
-          <MainChart
-            mediaUltimos30Dias={600}
-            totalHoje={660}
-            accontName="Todas as contas"
-            cardColor="#C361FF"
-            infoGrafico={{
-              series: [
-                {
-                  name: "teste",
-                  data: [
-                    110, 100, 200, 250, 300, 324, 342, 342, 342, 342, 215, 334,
-                    110, 100, 200, 250, 300, 215, 334, 324, 342, 342, 342, 342,
-                    234, 324, 234, 324, 434, 434,
-                  ],
-                },
-              ],
-            }}
-          ></MainChart>
+          <MainChart {...mainChartData}></MainChart>
         </Flex>
       </Flex>
     </SidebarWithHeader>

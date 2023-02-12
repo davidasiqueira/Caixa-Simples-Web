@@ -1,28 +1,15 @@
-import {
-  Card,
-  useColorModeValue,
-} from "@chakra-ui/react";
-import { ChartConfig } from "../../types/lancamento";
+import { Card, useColorModeValue } from "@chakra-ui/react";
+import { CardData } from "../../types/lancamento";
 import dynamic from "next/dynamic";
+import { getLast30Days } from "../util/funcoes";
 const ReactApexChart = dynamic(() => import("react-apexcharts"), {
   ssr: false,
 });
 
-interface Props {
-  accontName: string;
-  mediaUltimos30Dias: number;
-  totalHoje: number;
-  infoGrafico: ChartConfig;
-  cardColor: string;
-}
+const MainChart = ({ accountName, registro30Dias, cardColor }: CardData) => {
+  const ultimos30dias = getLast30Days();
 
-const MainChart = ({
-  accontName,
-  infoGrafico,
-  cardColor,
-}: Props) => {
-
-  infoGrafico.options = {
+  registro30Dias.options = {
     chart: {
       type: "line",
       zoom: {
@@ -30,7 +17,7 @@ const MainChart = ({
       },
     },
     xaxis: {
-      show: false,
+      categories: ultimos30dias,
     },
     yaxis: {
       show: false,
@@ -40,8 +27,8 @@ const MainChart = ({
       colors: [cardColor],
     },
     title: {
-      text: accontName,
-      align: 'left'
+      text: accountName,
+      align: "left",
     },
     grid: {
       show: false,
@@ -58,14 +45,14 @@ const MainChart = ({
       display="flex"
       borderColor={useColorModeValue("gray.200", "gray.700")}
       bg={useColorModeValue("white", "gray.800")}
+      boxShadow="lg"
     >
-      
-        <ReactApexChart
-          options={infoGrafico.options}
-          series={infoGrafico.series}
-          width={"100%"}
-          height={200}
-        />
+      <ReactApexChart
+        options={registro30Dias.options}
+        series={registro30Dias.series}
+        width={"100%"}
+        height={200}
+      />
     </Card>
   );
 };

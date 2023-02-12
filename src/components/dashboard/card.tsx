@@ -11,26 +11,40 @@ import {
 } from "@chakra-ui/react";
 import { CardData, ChartConfig } from "../../types/lancamento";
 import dynamic from "next/dynamic";
+import { Dispatch, SetStateAction } from "react";
+import { getLast30Days } from "../util/funcoes";
 const ReactApexChart = dynamic(() => import("react-apexcharts"), {
   ssr: false,
 });
 
-const DashboardCard = ( { accountName, registro30Dias, cardColor }: CardData) => {
-  
+interface Props {
+  cardData: CardData;
+  setMainChartData: Dispatch<SetStateAction<CardData>>;
+}
+
+const DashboardCard = ({ cardData, setMainChartData }: Props) => {
   const mediaUltimos30Dias = Number(
     (
-      registro30Dias.series[0].data.reduce(
+      cardData.registro30Dias.series[0].data.reduce(
         (acumulador, data) => data + acumulador,
         0
       ) / 30
     ).toFixed(2)
   );
-  const totalHoje = registro30Dias.series[0].data.at(-1);
+  const totalHoje = cardData.registro30Dias.series[0].data.at(-1);
   const fracaoDototal = Math.round(
     (totalHoje - mediaUltimos30Dias) / (mediaUltimos30Dias / 100)
   );
 
-  registro30Dias.options = {
+  const ultimos30dias = getLast30Days();
+  
+  const updateMainChartData = () => {
+    setMainChartData({
+      ...cardData,
+    });
+  };
+
+  cardData.registro30Dias.options = {
     chart: {
       type: "line",
       sparkline: {
@@ -41,14 +55,14 @@ const DashboardCard = ( { accountName, registro30Dias, cardColor }: CardData) =>
       },
     },
     xaxis: {
-      show: false,
+      categories: ultimos30dias
     },
     yaxis: {
       show: false,
     },
     stroke: {
       curve: "smooth",
-      colors: [cardColor],
+      colors: [cardData.cardColor],
     },
     grid: {
       show: false,
@@ -63,20 +77,29 @@ const DashboardCard = ( { accountName, registro30Dias, cardColor }: CardData) =>
       minW="230px"
       maxW="240px"
       p="16px"
+      boxShadow="lg"
       display="flex"
       borderColor={useColorModeValue("gray.200", "gray.700")}
       bg={useColorModeValue("white", "gray.800")}
+      cursor="pointer"
+      onClick={updateMainChartData}
+      _hover={{
+        boxShadow: "xl",
+        transform: "scale(1.02)",
+      }}
     >
       <Heading size="sm" mb="15px">
-        {accountName}
+        {cardData.accountName}
       </Heading>
       <Stat>
         <StatLabel>Média ultimos 30 dias</StatLabel>
-        <StatNumber color={cardColor}>R$ {mediaUltimos30Dias}</StatNumber>
+        <StatNumber color={cardData.cardColor}>
+          R$ {mediaUltimos30Dias}
+        </StatNumber>
       </Stat>
       <Stat>
         <StatLabel>Total hoje</StatLabel>
-        <StatNumber color={cardColor}>R$ {totalHoje}</StatNumber>
+        <StatNumber color={cardData.cardColor}>R$ {totalHoje}</StatNumber>
         <StatHelpText>
           <StatArrow type={fracaoDototal > 0 ? "increase" : "decrease"} />
           {fracaoDototal + "%"}
@@ -84,8 +107,8 @@ const DashboardCard = ( { accountName, registro30Dias, cardColor }: CardData) =>
       </Stat>
       <Stack>
         <ReactApexChart
-          options={registro30Dias.options}
-          series={registro30Dias.series}
+          options={cardData.registro30Dias.options}
+          series={cardData.registro30Dias.series}
           width={"100%"}
           height={90}
         />
