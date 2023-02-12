@@ -5,3 +5,10 @@ export type LancamentoType = {
   descricao: string;
   hora: number;
 };
+export interface ChartConfig {
+  series: [{
+    name: string
+    data: number[]
+  }]
+  options?: {}
+}

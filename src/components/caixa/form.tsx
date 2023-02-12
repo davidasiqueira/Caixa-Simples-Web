@@ -20,14 +20,14 @@ interface Props {
 
 const CaixaForm = ({ setLancamento }: Props) => {
   // Form
-  const [valor, setValor] = useState<string>("cash");
-  const [conta, setConta] = useState<string>("Entrada");
+  const [valor, setValor] = useState<string>("");
+  const [conta, setConta] = useState<string>("cash");
   const [descricao, setDescricao] = useState<string>();
 
   //radio buttons
 
   const options = ["Entrada", "Saida"];
-  const [movimento, setMovimento] = useState<string>();
+  const [movimento, setMovimento] = useState<string>("Entrada");
   const { getRootProps, getRadioProps } = useRadioGroup({
     name: "operacao",
     defaultValue: "Entrada",
