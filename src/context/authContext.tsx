@@ -3,9 +3,6 @@ import axios from "axios";
 import { setCookie, parseCookies, destroyCookie } from "nookies";
 import Router from "next/router";
 
-const AUTH_API_URL = process.env.AUTH_API_URL || "http://localhost:3030/auth/login";
-const ISVALID_API_URL = process.env.ISVALID_API_URL || "http://localhost:3030/auth/isvalid?userId=";
-
 type User = {
   userId: number;
   avatar: string;
@@ -37,7 +34,7 @@ export function AuthProvider({ children }) {
     if (token && id) {
       const authStr = "Bearer ".concat(token);
       axios
-        .get(ISVALID_API_URL + id, {
+        .get(process.env.ISVALID_API_URL + id, {
           headers: {
             Authorization: authStr,
           },
@@ -59,7 +56,7 @@ export function AuthProvider({ children }) {
       const {
         data: { access_token, user },
       } = await axios.post(
-        AUTH_API_URL,
+        process.env.AUTH_API_URL,
         {
           username,
           password,
