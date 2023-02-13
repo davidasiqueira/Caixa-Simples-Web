@@ -3,8 +3,8 @@ import axios from "axios";
 import { setCookie, parseCookies, destroyCookie } from "nookies";
 import Router from "next/router";
 
-const AUTH_API_URL = "http://localhost:3030/auth/login";
-const ISVALID_API_URL = "http://localhost:3030/auth/isvalid?userId=";
+const AUTH_API_URL = process.env.AUTH_API_URL || "http://localhost:3030/auth/login";
+const ISVALID_API_URL = process.env.ISVALID_API_URL || "http://localhost:3030/auth/isvalid?userId=";
 
 type User = {
   userId: number;

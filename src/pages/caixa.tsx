@@ -63,19 +63,19 @@ const Caixa = () => {
 
 export default Caixa;
 
-// export const getServerSideProps: GetServerSideProps = async (ctx) => {
-//   const { "caixa-simples-token": token } = parseCookies(ctx);
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const { "caixa-simples-token": token } = parseCookies(ctx);
 
-//   if (!token) {
-//     return {
-//       redirect: {
-//         destination: "/",
-//         permanent: false,
-//       },
-//     };
-//   }
+  if (!token) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
 
-//   return {
-//     props: {},
-//   };
-// };
+  return {
+    props: {},
+  };
+};

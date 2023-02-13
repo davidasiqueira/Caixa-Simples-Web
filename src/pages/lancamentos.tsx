@@ -17,7 +17,6 @@ import {
   Badge,
   Input,
   Text,
-  Button,
   IconButton,
 } from "@chakra-ui/react";
 import { LancamentoType } from "../types/lancamento";
@@ -192,19 +191,19 @@ const Lancamentos = () => {
 
 export default Lancamentos;
 
-// export const getServerSideProps: GetServerSideProps = async (ctx) => {
-//   const { "caixa-simples-token": token } = parseCookies(ctx);
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const { "caixa-simples-token": token } = parseCookies(ctx);
 
-//   if (!token) {
-//     return {
-//       redirect: {
-//         destination: "/",
-//         permanent: false,
-//       },
-//     };
-//   }
+  if (!token) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
 
-//   return {
-//     props: {},
-//   };
-// };
+  return {
+    props: {},
+  };
+};
