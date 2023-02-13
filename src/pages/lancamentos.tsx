@@ -7,18 +7,21 @@ import {
   Box,
   Flex,
   useColorModeValue,
-  Text,
   TableContainer,
   Table,
-  TableCaption,
   Thead,
   Tr,
   Th,
   Tbody,
   Td,
   Badge,
+  Input,
+  Text,
+  Button,
+  IconButton,
 } from "@chakra-ui/react";
 import { LancamentoType } from "../types/lancamento";
+import { SearchIcon } from "@chakra-ui/icons";
 
 const tableData1: LancamentoType = {
   conta: "Cash",
@@ -85,8 +88,37 @@ const Lancamentos = () => {
           display="flex"
           flexDirection="column"
         >
+          <Text fontWeight="600">Periodo</Text>
+          <Flex align="baseline" columnGap="10px" mb="5px" mt="5px">
+            <Input
+              width="20%"
+              variant="filled"
+              placeholder="Select Date and Time"
+              size="md"
+              type="date"
+              borderRadius="18px"
+            />
+            <Text>Até</Text>
+            <Input
+              width="20%"
+              variant="filled"
+              placeholder="Select Date and Time"
+              size="md"
+              type="date"
+              borderRadius="18px"
+            />
+            <IconButton
+              alignSelf='center'
+              borderRadius="18px"
+              height="40px"
+              colorScheme="blue"
+              aria-label="Search database"
+              icon={<SearchIcon />}
+            />
+          </Flex>
+
           <TableContainer overflowY="auto">
-            <Table variant="simple" size={['sm',"sm","sm","md","lg"]}>
+            <Table variant="simple" size={["sm", "sm", "sm", "md", "lg"]}>
               <Thead>
                 <Tr>
                   <Th>Movimento</Th>
