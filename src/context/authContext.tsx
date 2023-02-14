@@ -34,7 +34,7 @@ export function AuthProvider({ children }) {
     if (token && id) {
       const authStr = "Bearer ".concat(token);
       axios
-        .get(process.env.ISVALID_API_URL + id, {
+        .get(process.env.NEXT_PUBLIC_ISVALID_API_URL + id, {
           headers: {
             Authorization: authStr,
           },
@@ -56,7 +56,7 @@ export function AuthProvider({ children }) {
       const {
         data: { access_token, user },
       } = await axios.post(
-        process.env.AUTH_API_URL,
+        process.env.NEXT_PUBLIC_AUTH_API_URL,
         {
           username,
           password,
