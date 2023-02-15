@@ -67,7 +67,7 @@ export function AuthProvider({ children }) {
       setCookie(undefined, "caixa-simples-token", access_token, {
         maxAge: 300, // 5 minutes
       });
-      setCookie(undefined, "caixa-simples-userId", user.userId, {
+      setCookie(undefined, "caixa-simples-userId", user.id, {
         maxAge: 60 * 60 * 24 * 30, // 30 days
       });
 
