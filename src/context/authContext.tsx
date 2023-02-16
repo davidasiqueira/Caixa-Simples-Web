@@ -39,14 +39,18 @@ export function AuthProvider({ children }) {
             Authorization: authStr,
           },
         }).then((response) => {
+          if(!response){
+            destroyCookie(undefined, "caixa-simples-token");
+            Router.push("/");
+            return;
+          }
           setUser({
             userId: numberId,
             username: response.data.username,
             avatar: response.data.avatar,
           });
         }).catch((err) => {
-          destroyCookie(undefined, "caixa-simples-token");
-          Router.push("/");
+          console.log(err)
         });
     }
   }, []);
