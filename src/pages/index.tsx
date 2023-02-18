@@ -22,10 +22,6 @@ const IndexPage = () => {
   const white100 = useColorModeValue("whiteAlpha.700", "gray.600");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [user, setUser] = useState({
-    username: "",
-    password: "",
-  });
   const [fazendoLogin, setFazendoLogin] = useState(false);
   const { signIn } = useContext(AuthContext);
 
@@ -36,10 +32,6 @@ const IndexPage = () => {
   }
 
   async function updateUser() {
-    setUser(() => ({
-      username: email,
-      password: password,
-    }));
     handleSignIn({ username: email, password: password });
   }
 

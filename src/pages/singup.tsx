@@ -13,7 +13,6 @@ import { useContext, useState } from "react";
 import { Logo } from "../components/login/Logo";
 import { PasswordField } from "../components/login/PasswordField";
 import { AuthContext } from "../context/authContext";
-import { SaveUserType } from "../types/lancamento";
 
 const IndexPage = () => {
   const gray100 = useColorModeValue("gray.100", "gray.700");
@@ -22,18 +21,15 @@ const IndexPage = () => {
   const [name, setName] = useState("");
   const [avatar, setAvatar] = useState("");
   const [password, setPassword] = useState("");
-  const [user, setUser] = useState<SaveUserType>({avatar:'',email:'',name:'',password:''});
   const { singUp } = useContext(AuthContext);
 
   async function saveUser() {
-    setUser(() => ({
+    singUp({
       avatar: avatar,
       email: email,
       name: name,
       password: password,
-    }));
-    console.log(user);
-    singUp(user);
+    });
   }
 
   return (
@@ -48,10 +44,6 @@ const IndexPage = () => {
           <Stack spacing={{ base: "2", md: "3" }} textAlign="center">
             <Heading size={{ base: "xs", md: "sm" }}>
               Create a new account
-              {`avatar: ${avatar},
-      email: ${email},
-      name: ${name},
-      password: ${password},`}
             </Heading>
           </Stack>
         </Stack>
