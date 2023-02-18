@@ -11,36 +11,31 @@ import {
   Stack,
   useColorModeValue,
 } from "@chakra-ui/react";
-import Router from "next/router";
 import { useContext, useState } from "react";
 import { Logo } from "../components/login/Logo";
 import { PasswordField } from "../components/login/PasswordField";
 import { AuthContext } from "../context/authContext";
+import { SaveUserType } from "../types/lancamento";
 
 const IndexPage = () => {
   const gray100 = useColorModeValue("gray.100", "gray.700");
   const white100 = useColorModeValue("whiteAlpha.700", "gray.600");
   const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
+  const [avatar, setAvatar] = useState("");
   const [password, setPassword] = useState("");
-  const [user, setUser] = useState({
-    username: "",
-    password: "",
-  });
+  const [user, setUser] = useState<SaveUserType>({} as SaveUserType);
   const [fazendoLogin, setFazendoLogin] = useState(false);
-  const { signIn } = useContext(AuthContext);
+  const { singUp } = useContext(AuthContext);
 
-  async function handleSignIn(data) {
-    //fazer try catch
-    setFazendoLogin(true);
-    await signIn(data);
-  }
-
-  async function updateUser() {
+  async function saveUser() {
     setUser(() => ({
-      username: email,
+      avatar: avatar,
+      email: email,
+      name: name,
       password: password,
     }));
-    handleSignIn({ username: email, password: password });
+    singUp(user);
   }
 
   return (
@@ -54,7 +49,7 @@ const IndexPage = () => {
           <Logo />
           <Stack spacing={{ base: "2", md: "3" }} textAlign="center">
             <Heading size={{ base: "xs", md: "sm" }}>
-              Log in to your account
+              Create a new account
             </Heading>
           </Stack>
         </Stack>
@@ -69,6 +64,16 @@ const IndexPage = () => {
           <Stack spacing="6">
             <Stack spacing="5">
               <FormControl>
+                <FormLabel htmlFor="email">Name</FormLabel>
+                <Input
+                  backgroundColor={white100}
+                  placeholder="Your name here"
+                  id="name"
+                  type="text"
+                  onChange={(event) => setName(event.target.value)}
+                />
+              </FormControl>
+              <FormControl>
                 <FormLabel htmlFor="email">Email</FormLabel>
                 <Input
                   backgroundColor={white100}
@@ -81,42 +86,29 @@ const IndexPage = () => {
               <PasswordField
                 onChange={(event) => setPassword(event.target.value)}
               />
+              <FormControl>
+                <FormLabel htmlFor="email">Avatar Url</FormLabel>
+                <Input
+                  backgroundColor={white100}
+                  placeholder="Your avatr url here"
+                  id="name"
+                  type="text"
+                  onChange={(event) => setAvatar(event.target.value)}
+                />
+              </FormControl>
             </Stack>
-            <HStack justify="space-between">
-              <Checkbox defaultChecked>Remember me</Checkbox>
-              <Button variant="link" colorScheme="blue" size="sm">
-                Forgot password?
-              </Button>
-            </HStack>
-            <Stack
-              display="flex"
-              flexDirection="row"
-              justifyContent="space-around"
+
+            <Button
+              alignSelf="center"
+              variant="solid"
+              colorScheme="blue"
+              borderRadius="16px"
+              type="button"
+              cursor="pointer"
+              onClick={saveUser}
             >
-              <Button
-                mt="8px"
-                variant="solid"
-                type="button"
-                cursor="pointer"
-                borderRadius="16px"
-                width="110px"
-                onClick={() => {Router.push('/singup')}}
-              >
-                Sing up
-              </Button>
-              <Button
-                width="110px"
-                isLoading={fazendoLogin}
-                variant="solid"
-                colorScheme="blue"
-                borderRadius="16px"
-                type="button"
-                cursor="pointer"
-                onClick={updateUser}
-              >
-                Sign in
-              </Button>
-            </Stack>
+              SingUp and login
+            </Button>
           </Stack>
         </Box>
       </Stack>

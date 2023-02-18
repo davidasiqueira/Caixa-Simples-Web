@@ -20,3 +20,10 @@ export type CardData = {
   registro30Dias: ChartConfig;
   cardColor: string;
 };
+
+export type SaveUserType = {
+  name: string;
+  email: string;
+  password: string;
+  avatar: string
+}

@@ -2,6 +2,7 @@ import { createContext, useEffect, useState } from "react";
 import axios from "axios";
 import { setCookie, parseCookies, destroyCookie } from "nookies";
 import Router from "next/router";
+import { SaveUserType } from "../types/lancamento";
 
 type User = {
   userId: number;
@@ -18,6 +19,7 @@ type AuthContextType = {
   isAuthenticated: boolean;
   user: User;
   signIn: (data: Credentials) => Promise<void>;
+  singUp: (user: SaveUserType) => Promise<void>;
 };
 
 export const AuthContext = createContext({} as AuthContextType);
@@ -28,7 +30,8 @@ export function AuthProvider({ children }) {
   const isAuthenticated = !!user;
 
   useEffect(() => {
-    const { "caixa-simples-token": token, "caixa-simples-userId": id } = parseCookies();
+    const { "caixa-simples-token": token, "caixa-simples-userId": id } =
+      parseCookies();
     let numberId = Number(id);
 
     if (token && id) {
@@ -38,8 +41,9 @@ export function AuthProvider({ children }) {
           headers: {
             Authorization: authStr,
           },
-        }).then((response) => {
-          if(!response.data.name){
+        })
+        .then((response) => {
+          if (!response.data.name) {
             destroyCookie(undefined, "caixa-simples-token");
             Router.push("/");
             return;
@@ -49,8 +53,9 @@ export function AuthProvider({ children }) {
             username: response.data.name,
             avatar: response.data.avatar,
           });
-        }).catch((err) => {
-          console.log(err)
+        })
+        .catch((err) => {
+          console.log(err);
         });
     }
   }, []);
@@ -83,8 +88,17 @@ export function AuthProvider({ children }) {
     }
   }
 
+  async function singUp(user: SaveUserType) {
+    try {
+      await axios.post(process.env.NEXT_PUBLIC_CREATE_USER, user, {});
+      await signIn({ username: user.email, password: user.password });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return (
-    <AuthContext.Provider value={{ user, isAuthenticated, signIn }}>
+    <AuthContext.Provider value={{ user, isAuthenticated, signIn, singUp }}>
       {children}
     </AuthContext.Provider>
   );
