@@ -21,9 +21,11 @@ const IndexPage = () => {
   const [name, setName] = useState("");
   const [avatar, setAvatar] = useState("");
   const [password, setPassword] = useState("");
+  const [fazendoLogin, setFazendoLogin] = useState(false);
   const { singUp } = useContext(AuthContext);
 
   async function saveUser() {
+    setFazendoLogin(true)
     singUp({
       avatar: avatar,
       email: email,
@@ -84,7 +86,7 @@ const IndexPage = () => {
                 <FormLabel htmlFor="email">Avatar Url</FormLabel>
                 <Input
                   backgroundColor={white100}
-                  placeholder="Your avatr url here"
+                  placeholder="Your avatar url here"
                   id="name"
                   type="text"
                   onChange={(event) => setAvatar(event.target.value)}
@@ -93,6 +95,7 @@ const IndexPage = () => {
             </Stack>
 
             <Button
+            isLoading={fazendoLogin}
               alignSelf="center"
               variant="solid"
               colorScheme="blue"
