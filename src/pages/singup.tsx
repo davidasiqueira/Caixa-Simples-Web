@@ -1,12 +1,10 @@
 import {
   Box,
   Button,
-  Checkbox,
   Container,
   FormControl,
   FormLabel,
   Heading,
-  HStack,
   Input,
   Stack,
   useColorModeValue,
@@ -25,7 +23,6 @@ const IndexPage = () => {
   const [avatar, setAvatar] = useState("");
   const [password, setPassword] = useState("");
   const [user, setUser] = useState<SaveUserType>({} as SaveUserType);
-  const [fazendoLogin, setFazendoLogin] = useState(false);
   const { singUp } = useContext(AuthContext);
 
   async function saveUser() {
@@ -50,6 +47,10 @@ const IndexPage = () => {
           <Stack spacing={{ base: "2", md: "3" }} textAlign="center">
             <Heading size={{ base: "xs", md: "sm" }}>
               Create a new account
+              {`avatar: ${avatar},
+      email: ${email},
+      name: ${name},
+      password: ${password},`}
             </Heading>
           </Stack>
         </Stack>
