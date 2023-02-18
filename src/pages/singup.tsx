@@ -32,6 +32,7 @@ const IndexPage = () => {
       name: name,
       password: password,
     }));
+    console.log(user)
     singUp(user);
   }
 
