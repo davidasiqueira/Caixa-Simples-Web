@@ -22,7 +22,7 @@ const IndexPage = () => {
   const [name, setName] = useState("");
   const [avatar, setAvatar] = useState("");
   const [password, setPassword] = useState("");
-  const [user, setUser] = useState<SaveUserType>({} as SaveUserType);
+  const [user, setUser] = useState<SaveUserType>();
   const { singUp } = useContext(AuthContext);
 
   async function saveUser() {
@@ -32,7 +32,7 @@ const IndexPage = () => {
       name: name,
       password: password,
     }));
-    console.log(user)
+    console.log(user);
     singUp(user);
   }
 
