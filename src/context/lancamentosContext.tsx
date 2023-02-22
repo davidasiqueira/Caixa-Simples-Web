@@ -20,9 +20,7 @@ export function LancamentosProvider({ children }) {
   const [lancamentos, setLancamento] = useState<LancamentoType[]>([]);
 
   async function addLancamento(lancamento: LancamentoType) {
-    setLancamento((prevState) => {
-      [...prevState, lancamento];
-    });
+    setLancamento((prevState) => [...prevState, lancamento]);
   }
 
   async function lancamentosSync() {}

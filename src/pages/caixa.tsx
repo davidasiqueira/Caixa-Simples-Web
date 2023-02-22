@@ -7,12 +7,13 @@ import { Box, Flex, Heading, useColorModeValue } from "@chakra-ui/react";
 import CaixaTable from "../components/caixa/table";
 import CaixaForm from "../components/caixa/form";
 import { LancamentoType } from "../types/lancamento";
+import { LancamentosContext } from "../context/lancamentosContext";
 
 
 
 const Caixa = () => {
   const { user } = useContext(AuthContext);
-  const [ lancamentos, setLancamento ] = useState<LancamentoType[]>([]);
+  const { addLancamento, lancamentos } = useContext(LancamentosContext)
 
   return (
     <SidebarWithHeader>
@@ -39,7 +40,7 @@ const Caixa = () => {
           <Heading as="h3" size="md">
             Lançamentos
           </Heading>
-          <CaixaForm setLancamento={setLancamento} />
+          <CaixaForm setLancamento={addLancamento} />
         </Box>
         <Box
           width={["100%", "100%", "100%", "32.5%", "32.5%"]}
