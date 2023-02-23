@@ -5,7 +5,7 @@ import Router from "next/router";
 import { SaveUserType } from "../types/lancamento";
 
 type User = {
-  userId: number;
+  userId: string;
   avatar: string;
   username: string;
 };
@@ -32,7 +32,6 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     const { "caixa-simples-token": token, "caixa-simples-userId": id } =
       parseCookies();
-    let numberId = Number(id);
 
     if (token && id) {
       const authStr = "Bearer ".concat(token);
@@ -49,7 +48,7 @@ export function AuthProvider({ children }) {
             return;
           }
           setUser({
-            userId: numberId,
+            userId: id,
             username: response.data.name,
             avatar: response.data.avatar,
           });
