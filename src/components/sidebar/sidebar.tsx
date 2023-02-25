@@ -9,7 +9,6 @@ import {
   VStack,
   Icon,
   useColorModeValue,
-  Link,
   Drawer,
   DrawerContent,
   Text,
@@ -23,17 +22,9 @@ import {
   MenuList,
   useColorMode,
 } from "@chakra-ui/react";
-import {
-  FiHome,
-  FiTrendingUp,
-  FiCompass,
-  FiStar,
-  FiSettings,
-  FiMenu,
-  FiBell,
-  FiChevronDown,
-} from "react-icons/fi";
+import { FiTrendingUp, FiMenu, FiChevronDown } from "react-icons/fi";
 import { BsMoonFill, BsSun, BsTable } from "react-icons/bs";
+import Link from "next/link";
 import { FaCashRegister } from "react-icons/fa";
 import { IconType } from "react-icons";
 import { ReactText } from "react";
@@ -129,7 +120,6 @@ const NavItem = ({ icon, children, link, ...rest }: NavItemProps) => {
     <Link
       href={link}
       style={{ textDecoration: "none" }}
-      _focus={{ boxShadow: "none" }}
     >
       <Flex
         fontWeight="500"

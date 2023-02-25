@@ -6,7 +6,6 @@ import { parseCookies } from "nookies";
 import { Box, Flex, Heading, useColorModeValue } from "@chakra-ui/react";
 import CaixaTable from "../components/caixa/table";
 import CaixaForm from "../components/caixa/form";
-import { LancamentoType } from "../types/lancamento";
 import { LancamentosContext } from "../context/lancamentosContext";
 
 

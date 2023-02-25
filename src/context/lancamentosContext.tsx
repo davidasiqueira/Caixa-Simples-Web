@@ -30,7 +30,7 @@ export function LancamentosProvider({ children }) {
 
   }
 
-  async function onLogin(params:type) {
+  async function onLogin() {
     
   }
 
