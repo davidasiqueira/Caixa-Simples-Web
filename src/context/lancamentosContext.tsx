@@ -26,7 +26,13 @@ export function LancamentosProvider({ children }) {
     setLancamento((prevState) => [...prevState, lancamento]);
   }
 
-  async function lancamentosSync() {}
+  async function lancamentosSync() {
+
+  }
+
+  async function onLogin(params:type) {
+    
+  }
 
   async function getLancamentos(initialDate: number, finalDate: number): Promise<
     LancamentoType[] | LancamentoType | null
