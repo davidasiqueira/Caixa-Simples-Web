@@ -13,7 +13,7 @@ type LancamentoType = {
 
 type LancamentosContextType = {
   lancamentos: LancamentoType[];
-  lancamentosSync: () => Promise<void>;
+  onLoadSync: () => Promise<void>;
   addLancamento: (lancamento: LancamentoType) => Promise<void>;
 };
 
@@ -22,21 +22,10 @@ export const LancamentosContext = createContext({} as LancamentosContextType);
 export function LancamentosProvider({ children }) {
   const [lancamentos, setLancamento] = useState<LancamentoType[]>([]);
 
-  async function addLancamento(lancamento: LancamentoType) {
-    setLancamento((prevState) => [...prevState, lancamento]);
-  }
-
-  async function lancamentosSync() {
-
-  }
-
-  async function onLogin() {
-    
-  }
-
-  async function getLancamentos(initialDate: number, finalDate: number): Promise<
-    LancamentoType[] | LancamentoType | null
-  > {
+  async function getLancamentos(
+    initialDate: number,
+    finalDate: number
+  ): Promise<LancamentoType[] | LancamentoType | null> {
     const { "caixa-simples-token": token, "caixa-simples-userId": id } =
       parseCookies();
     const authStr = "Bearer ".concat(token);
@@ -45,7 +34,7 @@ export function LancamentosProvider({ children }) {
       .get(process.env.NEXT_PUBLIC_GET_ALL + id, {
         params: {
           initialDate: initialDate,
-          finalDate:finalDate
+          finalDate: finalDate,
         },
         headers: {
           Authorization: authStr,
@@ -74,19 +63,61 @@ export function LancamentosProvider({ children }) {
     );
     return newResponse;
   }
-  //preciso que os ultimos lançamentos do dia sejam puxados do backend assim que a tela
-  //de caixa abrir e todas as vezes que a tela for atualizada
 
-  //preciso que toda vez que um lançamento for executado ele seja salvo no backend
+  async function onLoadSync() {
+    const lancamentos = await getLancamentos(
+      new Date().setHours(0, 0, 1, 0),
+      999999999999
+    );
+    if (!lancamentos) {
+      return;
+    } else if (!Array.isArray(lancamentos)) {
+      return;
+    }
+    Promise.all(lancamentos.map(addLancamento));
+  }
 
-  //preciso que as médias de todas as contas
-  //e as médias gerais sejam obtidas do backend todas as vezes que o dashboard for carregado
+  async function aoLancar(
+    lancamento: LancamentoType,
+    index: number
+  ): Promise<void> {
+    const { "caixa-simples-token": token, "caixa-simples-userId": id } =
+      parseCookies();
+    const authStr = "Bearer ".concat(token);
+    try {
+      const response = await axios.post(
+        process.env.NEXT_PUBLIC_NEW_LANCAMENTO_URL,
+        {
+          userId: id,
+          value: lancamento.valor,
+          account: lancamento.conta,
+          description: lancamento.descricao,
+          movimento: lancamento.movimento,
+          date: lancamento.hora,
+        },
+        {
+          headers: {
+            Authorization: authStr,
+          },
+        }
+      );
+      lancamentos[index]._id = response.data._id;
+    } catch (error) {
+      console.log(error);
+      return error;
+    }
+    return;
+  }
 
-  //preciso poder consultar os lançamentos por periodo do backend
+  async function addLancamento(lancamento: LancamentoType): Promise<void> {
+    setLancamento((prevState) => [...prevState, lancamento]);
+    aoLancar(lancamento, lancamentos.length - 1);
+    return;
+  }
 
   return (
     <LancamentosContext.Provider
-      value={{ addLancamento, lancamentosSync, lancamentos }}
+      value={{ addLancamento, onLoadSync, lancamentos }}
     >
       {children}
     </LancamentosContext.Provider>

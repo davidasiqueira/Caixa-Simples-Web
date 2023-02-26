@@ -1,18 +1,18 @@
 import { GetServerSideProps } from "next";
-import { useContext, useState } from "react";
+import { useContext, useEffect } from "react";
 import SidebarWithHeader from "../components/sidebar/sidebar";
-import { AuthContext } from "../context/authContext";
 import { parseCookies } from "nookies";
 import { Box, Flex, Heading, useColorModeValue } from "@chakra-ui/react";
 import CaixaTable from "../components/caixa/table";
 import CaixaForm from "../components/caixa/form";
 import { LancamentosContext } from "../context/lancamentosContext";
 
-
-
 const Caixa = () => {
-  const { user } = useContext(AuthContext);
-  const { addLancamento, lancamentos } = useContext(LancamentosContext)
+  const { addLancamento,onLoadSync, lancamentos } = useContext(LancamentosContext);
+
+  useEffect(() => {
+    onLoadSync()
+  })
 
   return (
     <SidebarWithHeader>
