@@ -8,11 +8,8 @@ import CaixaForm from "../components/caixa/form";
 import { LancamentosContext } from "../context/lancamentosContext";
 
 const Caixa = () => {
-  const { addLancamento,onLoadSync, lancamentos } = useContext(LancamentosContext);
-
-  useEffect(() => {
-    onLoadSync()
-  })
+  const { addLancamento, onLoadSync, lancamentos } =
+    useContext(LancamentosContext);
 
   return (
     <SidebarWithHeader>

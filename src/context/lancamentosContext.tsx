@@ -115,6 +115,8 @@ export function LancamentosProvider({ children }) {
     return;
   }
 
+  onLoadSync()
+
   return (
     <LancamentosContext.Provider
       value={{ addLancamento, onLoadSync, lancamentos }}
