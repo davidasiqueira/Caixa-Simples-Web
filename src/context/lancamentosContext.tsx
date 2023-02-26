@@ -67,7 +67,7 @@ export function LancamentosProvider({ children }) {
   async function onLoadSync() {
     const lancamentos = await getLancamentos(
       new Date().setHours(0, 0, 1, 0),
-      999999999999
+      99999999999999
     );
     if (!lancamentos) {
       return;
