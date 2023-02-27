@@ -36,11 +36,16 @@ export function AuthProvider({ children }) {
     if (token && id) {
       const authStr = "Bearer ".concat(token);
       axios
-        .get(process.env.NEXT_PUBLIC_ISVALID_API_URL + id, {
-          headers: {
-            Authorization: authStr,
-          },
-        })
+        .get(
+          process.env.NEXT_PUBLIC_ISVALID_API_URL 
+          // || "https://caixa-simples-api.herokuapp.com/auth/isvalid?userId=" 
+          + id,
+          {
+            headers: {
+              Authorization: authStr,
+            },
+          }
+        )
         .then((response) => {
           if (!response.data.name) {
             destroyCookie(undefined, "caixa-simples-token");
