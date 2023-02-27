@@ -9,6 +9,7 @@ import { LancamentosContext } from "../context/lancamentosContext";
 
 const Caixa = () => {
   const { addLancamento, lancamentos } = useContext(LancamentosContext);
+  
 
   return (
     <SidebarWithHeader>
@@ -61,7 +62,7 @@ export default Caixa;
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const { "caixa-simples-token": token } = parseCookies(ctx);
   const { onLoadSync } = useContext(LancamentosContext);
-
+  onLoadSync();
   if (!token) {
     return {
       redirect: {
@@ -70,7 +71,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
       },
     };
   }
-  onLoadSync();
+  
   return {
     props: {},
   };

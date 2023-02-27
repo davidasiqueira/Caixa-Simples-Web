@@ -74,7 +74,7 @@ export function LancamentosProvider({ children }) {
     } else if (!Array.isArray(lancamentos)) {
       return;
     }
-    Promise.all(lancamentos.map(addLancamento));
+    Promise.all(lancamentos.map(addLancamento)).then(() => console.log(lancamentos))
   }
 
   async function aoLancar(
