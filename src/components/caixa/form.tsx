@@ -19,7 +19,7 @@ interface Props {
 
 const CaixaForm = ({ setLancamento }: Props) => {
   const [valor, setValor] = useState<string>("");
-  const [account, setAccount] = useState<string>("cash");
+  const [account, setAccount] = useState<string>("Cash");
   const [description, setDescription] = useState<string>();
 
   const options = ["Entrada", "Saida"];
@@ -66,9 +66,9 @@ const CaixaForm = ({ setLancamento }: Props) => {
               defaultValue="Cash"
               onChange={(event) => setAccount(event.target.value)}
             >
-              <option value="cash">Cash</option>
-              <option value="pix">Pix</option>
-              <option value="cartao">Cartão</option>
+              <option value="Cash">Cash</option>
+              <option value="Pix">Pix</option>
+              <option value="Cartao">Cartão</option>
             </Select>
           </Flex>
           <Flex flexDir="column" ml="10px" mt="auto" mb="auto" rowGap="20px">

@@ -23,25 +23,25 @@ import { LancamentoType } from "../types/lancamento";
 import { SearchIcon } from "@chakra-ui/icons";
 
 const tableData1: LancamentoType = {
-  conta: "Cash",
-  descricao: "teste de descrição longa mas nem tanto",
+  account: "Cash",
+  description: "teste de descrição longa mas nem tanto",
   movimento: "Entrada",
-  hora: Date.now(),
-  valor: 25.5,
+  date: Date.now(),
+  value: 25.5,
 };
 const tableData2: LancamentoType = {
-  conta: "Pix",
-  descricao: "teste de descrição longa mas nem tanto",
+  account: "Pix",
+  description: "teste de descrição longa mas nem tanto",
   movimento: "Saida",
-  hora: Date.now(),
-  valor: 1.5,
+  date: Date.now(),
+  value: 1.5,
 };
 const tableData3: LancamentoType = {
-  conta: "Cartão",
-  descricao: "teste de descrição longa mas nem tanto",
+  account: "Cartão",
+  description: "teste de descrição longa mas nem tanto",
   movimento: "Saida",
-  hora: Date.now(),
-  valor: 250.5,
+  date: Date.now(),
+  value: 250.5,
 };
 
 const Lancamentos = () => {
@@ -150,10 +150,10 @@ const Lancamentos = () => {
                           {data.movimento}
                         </Badge>
                       </Td>
-                      <Td>{data.valor}</Td>
-                      <Td>{data.descricao}</Td>
+                      <Td>{data.value}</Td>
+                      <Td>{data.description}</Td>
                       <Td>
-                        {new Date(data.hora).toLocaleString("pt-BR", {
+                        {new Date(data.date).toLocaleString("pt-BR", {
                           day: "2-digit",
                           month: "2-digit",
                           year: "2-digit",
@@ -167,14 +167,14 @@ const Lancamentos = () => {
                           p="4px 8px"
                           borderRadius="9999px"
                           colorScheme={
-                            data.conta == "Cash"
+                            data.account == "Cash"
                               ? "green"
-                              : data.conta == "Pix"
+                              : data.account == "Pix"
                               ? "blue"
                               : "purple"
                           }
                         >
-                          {data.conta}
+                          {data.account}
                         </Badge>
                       </Td>
                     </Tr>
