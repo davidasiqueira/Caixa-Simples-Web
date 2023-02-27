@@ -29,8 +29,8 @@ const CaixaTable = ({ lancamentos }: Props) => {
             return (
               <Tr>
                 <Td>{lancamento.movimento}</Td>
-                <Td>R${lancamento.valor}</Td>
-                <Td>{lancamento.conta}</Td>
+                <Td>R${lancamento.value}</Td>
+                <Td>{lancamento.account}</Td>
               </Tr>
             );
           })}

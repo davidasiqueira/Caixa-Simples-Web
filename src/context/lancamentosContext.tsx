@@ -1,15 +1,8 @@
 import axios from "axios";
 import { parseCookies } from "nookies";
 import { createContext, SetStateAction, useState } from "react";
+import { LancamentoType } from "../types/lancamento";
 
-type LancamentoType = {
-  movimento: string;
-  valor: number;
-  conta: string;
-  descricao: string;
-  hora: number;
-  _id?: string;
-};
 
 type LancamentosContextType = {
   lancamentos: LancamentoType[];
@@ -33,8 +26,7 @@ export function LancamentosProvider({ children }) {
     const { "caixa-simples-token": token, "caixa-simples-userId": id } =
       parseCookies();
     const authStr = "Bearer ".concat(token);
-    let response = null;
-    await axios
+    let response = await axios
       .get(
         process.env.NEXT_PUBLIC_GET_ALL ||
           "https://caixa-simples-api.herokuapp.com/lancamentos/all/" + id,
@@ -48,28 +40,8 @@ export function LancamentosProvider({ children }) {
           },
         }
       )
-      .then((response) => {
-        if (!response.data) {
-          return;
-        }
-        response = response.data;
-      });
-    let newResponse: LancamentoType[];
-    Promise.all(
-      (newResponse = response.map(
-        async (lancamento): Promise<LancamentoType> => {
-          return {
-            conta: lancamento.account,
-            descricao: lancamento.description,
-            movimento: lancamento.movimento,
-            hora: lancamento.date,
-            valor: lancamento.value,
-            _id: lancamento._id,
-          };
-        }
-      ))
-    );
-    return newResponse;
+
+    return response.data;
   }
 
   async function aoLancar(
@@ -85,11 +57,11 @@ export function LancamentosProvider({ children }) {
           "https://caixa-simples-api.herokuapp.com/lancamentos/create",
         {
           userId: id,
-          value: lancamento.valor,
-          account: lancamento.conta,
-          description: lancamento.descricao,
+          value: lancamento.value,
+          account: lancamento.account,
+          description: lancamento.description,
           movimento: lancamento.movimento,
-          date: lancamento.hora,
+          date: lancamento.date,
         },
         {
           headers: {

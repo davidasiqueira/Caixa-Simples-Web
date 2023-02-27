@@ -1,9 +1,10 @@
 export type LancamentoType = {
   movimento: string;
-  valor: number;
-  conta: string;
-  descricao: string;
-  hora: number;
+  value: number;
+  account: string;
+  description: string;
+  date: number;
+  _id?: string;
 };
 export interface ChartConfig {
   series: [
@@ -25,5 +26,5 @@ export type SaveUserType = {
   name: string;
   email: string;
   password: string;
-  avatar: string
-}
+  avatar: string;
+};

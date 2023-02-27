@@ -19,8 +19,8 @@ interface Props {
 
 const CaixaForm = ({ setLancamento }: Props) => {
   const [valor, setValor] = useState<string>("");
-  const [conta, setConta] = useState<string>("cash");
-  const [descricao, setDescricao] = useState<string>();
+  const [account, setAccount] = useState<string>("cash");
+  const [description, setDescription] = useState<string>();
 
   const options = ["Entrada", "Saida"];
   const [movimento, setMovimento] = useState<string>("Entrada");
@@ -35,10 +35,10 @@ const CaixaForm = ({ setLancamento }: Props) => {
     event.preventDefault();
     setLancamento({
       movimento,
-      valor: Number(valor),
-      conta,
-      descricao,
-      hora: Date.now(),
+      value: Number(valor),
+      account,
+      description,
+      date: Date.now(),
     });
   };
 
@@ -64,7 +64,7 @@ const CaixaForm = ({ setLancamento }: Props) => {
               variant="filled"
               width="120px"
               defaultValue="Cash"
-              onChange={(event) => setConta(event.target.value)}
+              onChange={(event) => setAccount(event.target.value)}
             >
               <option value="cash">Cash</option>
               <option value="pix">Pix</option>
@@ -83,7 +83,6 @@ const CaixaForm = ({ setLancamento }: Props) => {
                 required
                 size="lg"
                 placeholder="Enter amount"
-                type="number"
                 onChange={(event) => setValor(event.target.value)}
               />
             </InputGroup>
@@ -97,7 +96,7 @@ const CaixaForm = ({ setLancamento }: Props) => {
                 size="lg"
                 type="text"
                 placeholder="Descrição"
-                onChange={(event) => setDescricao(event.target.value)}
+                onChange={(event) => setDescription(event.target.value)}
               />
             </InputGroup>
 

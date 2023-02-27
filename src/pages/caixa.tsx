@@ -11,15 +11,22 @@ const Caixa = () => {
   const { addLancamento, setLancamento, getLancamentos, lancamentos } =
     useContext(LancamentosContext);
   useEffect(() => {
-    getLancamentos(new Date().setHours(0, 0, 1, 0), 99999999999999).then(
-      (lancamentos) => {
+    async function load() {
+      if (!(lancamentos.length >= 1)) {
+        console.dir("toaqui");
+        const lancamentos = await getLancamentos(
+          new Date().setHours(0, 0, 1, 0),
+          99999999999999
+        );
+        console.log(lancamentos);
         if (!lancamentos) {
         } else if (!Array.isArray(lancamentos)) {
         } else {
           setLancamento(lancamentos);
         }
       }
-    );
+    }
+    load();
   }, []);
 
   return (
