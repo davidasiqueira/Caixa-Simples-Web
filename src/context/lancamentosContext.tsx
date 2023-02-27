@@ -28,8 +28,7 @@ export function LancamentosProvider({ children }) {
     const authStr = "Bearer ".concat(token);
     let response = await axios
       .get(
-        process.env.NEXT_PUBLIC_GET_ALL ||
-          "https://caixa-simples-api.herokuapp.com/lancamentos/all/" + id,
+        process.env.NEXT_PUBLIC_GET_ALL + id,
         {
           params: {
             initialDate: initialDate,
