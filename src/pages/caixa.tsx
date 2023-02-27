@@ -7,10 +7,10 @@ import CaixaTable from "../components/caixa/table";
 import CaixaForm from "../components/caixa/form";
 import { LancamentosContext } from "../context/lancamentosContext";
 
-const Caixa = () => {
-  const { addLancamento, onLoadSync, lancamentos } =
-    useContext(LancamentosContext);
+const { addLancamento, onLoadSync, lancamentos } =
+  useContext(LancamentosContext);
 
+const Caixa = () => {
   return (
     <SidebarWithHeader>
       <Flex
@@ -70,7 +70,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
       },
     };
   }
-
+  onLoadSync();
   return {
     props: {},
   };
