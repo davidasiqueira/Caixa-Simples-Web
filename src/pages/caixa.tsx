@@ -7,10 +7,9 @@ import CaixaTable from "../components/caixa/table";
 import CaixaForm from "../components/caixa/form";
 import { LancamentosContext } from "../context/lancamentosContext";
 
-const { addLancamento, onLoadSync, lancamentos } =
-  useContext(LancamentosContext);
-
 const Caixa = () => {
+  const { addLancamento, lancamentos } = useContext(LancamentosContext);
+
   return (
     <SidebarWithHeader>
       <Flex
@@ -61,6 +60,7 @@ export default Caixa;
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const { "caixa-simples-token": token } = parseCookies(ctx);
+  const { onLoadSync } = useContext(LancamentosContext);
 
   if (!token) {
     return {
