@@ -9,7 +9,6 @@ import { LancamentosContext } from "../context/lancamentosContext";
 
 const Caixa = () => {
   const { addLancamento, lancamentos } = useContext(LancamentosContext);
-  
 
   return (
     <SidebarWithHeader>
@@ -61,8 +60,20 @@ export default Caixa;
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const { "caixa-simples-token": token } = parseCookies(ctx);
-  const { onLoadSync } = useContext(LancamentosContext);
-  onLoadSync();
+  const { addLancamento, getLancamentos } = useContext(LancamentosContext);
+
+  const lancamentos = await getLancamentos(
+    new Date().setHours(0, 0, 1, 0),
+    99999999999999
+  );
+  if (!lancamentos) {
+  } else if (!Array.isArray(lancamentos)) {
+  } else {
+    Promise.all(lancamentos.map(addLancamento)).then(() =>
+      console.log(lancamentos)
+    );
+  }
+
   if (!token) {
     return {
       redirect: {
@@ -71,7 +82,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
       },
     };
   }
-  
+
   return {
     props: {},
   };

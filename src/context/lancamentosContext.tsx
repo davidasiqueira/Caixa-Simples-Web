@@ -13,7 +13,10 @@ type LancamentoType = {
 
 type LancamentosContextType = {
   lancamentos: LancamentoType[];
-  onLoadSync: () => Promise<void>;
+  getLancamentos: (
+    initialDate: number,
+    finalDate: number
+  ) => Promise<LancamentoType[] | LancamentoType>;
   addLancamento: (lancamento: LancamentoType) => Promise<void>;
 };
 
@@ -25,7 +28,7 @@ export function LancamentosProvider({ children }) {
   async function getLancamentos(
     initialDate: number,
     finalDate: number
-  ): Promise<LancamentoType[] | LancamentoType | null> {
+  ): Promise<LancamentoType[] | LancamentoType> {
     const { "caixa-simples-token": token, "caixa-simples-userId": id } =
       parseCookies();
     const authStr = "Bearer ".concat(token);
@@ -62,19 +65,6 @@ export function LancamentosProvider({ children }) {
       ))
     );
     return newResponse;
-  }
-
-  async function onLoadSync() {
-    const lancamentos = await getLancamentos(
-      new Date().setHours(0, 0, 1, 0),
-      99999999999999
-    );
-    if (!lancamentos) {
-      return;
-    } else if (!Array.isArray(lancamentos)) {
-      return;
-    }
-    Promise.all(lancamentos.map(addLancamento)).then(() => console.log(lancamentos))
   }
 
   async function aoLancar(
@@ -117,7 +107,7 @@ export function LancamentosProvider({ children }) {
 
   return (
     <LancamentosContext.Provider
-      value={{ addLancamento, onLoadSync, lancamentos }}
+      value={{ addLancamento, getLancamentos, lancamentos }}
     >
       {children}
     </LancamentosContext.Provider>
