@@ -1,6 +1,6 @@
 import axios from "axios";
 import { parseCookies } from "nookies";
-import { createContext, useState } from "react";
+import { createContext, SetStateAction, useState } from "react";
 
 type LancamentoType = {
   movimento: string;
@@ -13,6 +13,7 @@ type LancamentoType = {
 
 type LancamentosContextType = {
   lancamentos: LancamentoType[];
+  setLancamento: (value: SetStateAction<LancamentoType[]>) => void;
   getLancamentos: (
     initialDate: number,
     finalDate: number
@@ -34,15 +35,19 @@ export function LancamentosProvider({ children }) {
     const authStr = "Bearer ".concat(token);
     let response = null;
     await axios
-      .get(process.env.NEXT_PUBLIC_GET_ALL + id, {
-        params: {
-          initialDate: initialDate,
-          finalDate: finalDate,
-        },
-        headers: {
-          Authorization: authStr,
-        },
-      })
+      .get(
+        process.env.NEXT_PUBLIC_GET_ALL ||
+          "https://caixa-simples-api.herokuapp.com/lancamentos/all/" + id,
+        {
+          params: {
+            initialDate: initialDate,
+            finalDate: finalDate,
+          },
+          headers: {
+            Authorization: authStr,
+          },
+        }
+      )
       .then((response) => {
         if (!response.data) {
           return;
@@ -76,7 +81,8 @@ export function LancamentosProvider({ children }) {
     const authStr = "Bearer ".concat(token);
     try {
       const response = await axios.post(
-        process.env.NEXT_PUBLIC_NEW_LANCAMENTO_URL,
+        process.env.NEXT_PUBLIC_NEW_LANCAMENTO_URL ||
+          "https://caixa-simples-api.herokuapp.com/lancamentos/create",
         {
           userId: id,
           value: lancamento.valor,
@@ -107,7 +113,7 @@ export function LancamentosProvider({ children }) {
 
   return (
     <LancamentosContext.Provider
-      value={{ addLancamento, getLancamentos, lancamentos }}
+      value={{ addLancamento, setLancamento, getLancamentos, lancamentos }}
     >
       {children}
     </LancamentosContext.Provider>

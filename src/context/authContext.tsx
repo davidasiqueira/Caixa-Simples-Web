@@ -36,11 +36,15 @@ export function AuthProvider({ children }) {
     if (token && id) {
       const authStr = "Bearer ".concat(token);
       axios
-        .get(process.env.NEXT_PUBLIC_ISVALID_API_URL + id, {
-          headers: {
-            Authorization: authStr,
-          },
-        })
+        .get(
+          process.env.NEXT_PUBLIC_ISVALID_API_URL ||
+            "https://caixa-simples-api.herokuapp.com/auth/isvalid?userId=" + id,
+          {
+            headers: {
+              Authorization: authStr,
+            },
+          }
+        )
         .then((response) => {
           if (!response.data.name) {
             destroyCookie(undefined, "caixa-simples-token");
@@ -64,7 +68,8 @@ export function AuthProvider({ children }) {
       const {
         data: { access_token, user },
       } = await axios.post(
-        process.env.NEXT_PUBLIC_AUTH_API_URL,
+        process.env.NEXT_PUBLIC_AUTH_API_URL ||
+          "https://caixa-simples-api.herokuapp.com/auth/login",
         {
           username,
           password,
@@ -89,7 +94,12 @@ export function AuthProvider({ children }) {
 
   async function singUp(user: SaveUserType) {
     try {
-      await axios.post(process.env.NEXT_PUBLIC_CREATE_USER, user, {});
+      await axios.post(
+        process.env.NEXT_PUBLIC_CREATE_USER ||
+          "https://caixa-simples-api.herokuapp.com/users",
+        user,
+        {}
+      );
       await signIn({ username: user.email, password: user.password });
     } catch (error) {
       console.log(error);
