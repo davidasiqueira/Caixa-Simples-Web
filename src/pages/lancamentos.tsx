@@ -1,5 +1,5 @@
 import { GetServerSideProps } from "next";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import SidebarWithHeader from "../components/sidebar/sidebar";
 import { AuthContext } from "../context/authContext";
 import { parseCookies } from "nookies";
@@ -21,48 +21,62 @@ import {
 } from "@chakra-ui/react";
 import { LancamentoType } from "../types/lancamento";
 import { SearchIcon } from "@chakra-ui/icons";
+import { LancamentosContext } from "../context/lancamentosContext";
 
-const tableData1: LancamentoType = {
-  account: "Cash",
-  description: "teste de descrição longa mas nem tanto",
-  movimento: "Entrada",
-  date: Date.now(),
-  value: 25.5,
-};
-const tableData2: LancamentoType = {
-  account: "Pix",
-  description: "teste de descrição longa mas nem tanto",
-  movimento: "Saida",
-  date: Date.now(),
-  value: 1.5,
-};
-const tableData3: LancamentoType = {
-  account: "Cartão",
-  description: "teste de descrição longa mas nem tanto",
-  movimento: "Saida",
-  date: Date.now(),
-  value: 250.5,
+type FilterType = {
+  initialDate: number;
+  finalDate: number;
 };
 
 const Lancamentos = () => {
   const { user } = useContext(AuthContext);
-  const [lancamentos, setLancamentos] = useState<LancamentoType[]>([
-    tableData1,
-    tableData2,
-    tableData3,
-    tableData1,
-    tableData2,
-    tableData3,
-    tableData1,
-    tableData2,
-    tableData3,
-    tableData1,
-    tableData2,
-    tableData3,
-    tableData1,
-    tableData2,
-    tableData3,
-  ]);
+  const { getLancamentos } = useContext(LancamentosContext);
+  const [lancamentos, setLancamentos] = useState<LancamentoType[]>([]);
+  const [initialDate, setInitialDate] = useState<string>();
+  const [finalDate, setFinalDate] = useState<string>();
+  const [filter, setFilter] = useState<FilterType>({finalDate: 0 , initialDate: 0});
+
+  useEffect(() => {
+    async function load() {
+      if (!(lancamentos.length >= 1)) {
+        const lancamentos = await getLancamentos(
+          new Date().setHours(0, 0, 1, 0),
+          99999999999999
+        );
+        if (!lancamentos) {
+        } else if (!Array.isArray(lancamentos)) {
+        } else {
+          setLancamentos(lancamentos);
+        }
+      }
+    }
+    load();
+  }, []);
+
+  async function updateFilter() {
+    const initialDateArr = initialDate.split('-').map(date => Number(date))
+    const finalDateArr = finalDate.split('-').map(date => Number(date))
+    setFilter({
+      finalDate:  new Date(finalDateArr[0],finalDateArr[1],finalDateArr[2]).getTime() ,
+      initialDate: new Date(initialDateArr[0],initialDateArr[1],initialDateArr[2]).getTime() ,
+    });
+  }
+
+  useEffect(() => {
+    console.log(filter)
+    async function load() {
+      const lancamentos = await getLancamentos(
+        filter.initialDate,
+        filter.finalDate
+      );
+      if (!lancamentos) {
+      } else if (!Array.isArray(lancamentos)) {
+      } else {
+        setLancamentos(lancamentos);
+      }
+    }
+    load();
+  }, [filter]);
 
   return (
     <SidebarWithHeader>
@@ -96,6 +110,7 @@ const Lancamentos = () => {
               size="md"
               type="date"
               borderRadius="18px"
+              onChange={(event) => setInitialDate(event.target.value)}
             />
             <Text>Até</Text>
             <Input
@@ -105,14 +120,16 @@ const Lancamentos = () => {
               size="md"
               type="date"
               borderRadius="18px"
+              onChange={(event) => setFinalDate(event.target.value)}
             />
             <IconButton
-              alignSelf='center'
+              alignSelf="center"
               borderRadius="18px"
               height="40px"
               colorScheme="blue"
               aria-label="Search database"
               icon={<SearchIcon />}
+              onClick={updateFilter}
             />
           </Flex>
 

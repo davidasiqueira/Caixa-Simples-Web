@@ -13,7 +13,6 @@ const Caixa = () => {
   useEffect(() => {
     async function load() {
       if (!(lancamentos.length >= 1)) {
-        console.dir("toaqui");
         const lancamentos = await getLancamentos(
           new Date().setHours(0, 0, 1, 0),
           99999999999999
