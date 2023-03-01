@@ -81,7 +81,11 @@ export function AuthProvider({ children }) {
         maxAge: 60 * 60 * 24 * 30, // 30 days
       });
 
-      setUser(user);
+      setUser({
+        userId: user.id,
+        username: user.name,
+        avatar: user.avatar,
+      });
 
       Router.push("/dashboard");
     } catch (error) {
