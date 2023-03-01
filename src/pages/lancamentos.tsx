@@ -57,8 +57,8 @@ const Lancamentos = () => {
     const initialDateArr = initialDate.split('-').map(date => Number(date))
     const finalDateArr = finalDate.split('-').map(date => Number(date))
     setFilter({
-      finalDate:  new Date(finalDateArr[0],finalDateArr[1],finalDateArr[2]).getTime() ,
-      initialDate: new Date(initialDateArr[0],initialDateArr[1],initialDateArr[2]).getTime() ,
+      finalDate:  new Date(finalDateArr[0],finalDateArr[1]-1,finalDateArr[2]).getTime() ,
+      initialDate: new Date(initialDateArr[0],initialDateArr[1]-1,initialDateArr[2]).getTime() ,
     });
   }
 

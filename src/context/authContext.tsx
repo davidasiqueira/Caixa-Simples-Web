@@ -37,9 +37,8 @@ export function AuthProvider({ children }) {
       const authStr = "Bearer ".concat(token);
       axios
         .get(
-          process.env.NEXT_PUBLIC_ISVALID_API_URL 
-          // || "https://caixa-simples-api.herokuapp.com/auth/isvalid?userId=" 
-          + id,
+          process.env.NEXT_PUBLIC_ISVALID_API_URL ||
+            "https://caixa-simples-api.herokuapp.com/auth/isvalid?userId=" + id,
           {
             headers: {
               Authorization: authStr,
