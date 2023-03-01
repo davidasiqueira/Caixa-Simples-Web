@@ -20,6 +20,7 @@ type AuthContextType = {
   user: User;
   signIn: (data: Credentials) => Promise<void>;
   singUp: (user: SaveUserType) => Promise<void>;
+  logout: () => void;
 };
 
 export const AuthContext = createContext({} as AuthContextType);
@@ -102,8 +103,15 @@ export function AuthProvider({ children }) {
     }
   }
 
+  function logout() {
+    destroyCookie(undefined, "caixa-simples-token");
+    Router.push("/");
+  }
+
   return (
-    <AuthContext.Provider value={{ user, isAuthenticated, signIn, singUp }}>
+    <AuthContext.Provider
+      value={{ user, isAuthenticated, signIn, singUp, logout }}
+    >
       {children}
     </AuthContext.Provider>
   );

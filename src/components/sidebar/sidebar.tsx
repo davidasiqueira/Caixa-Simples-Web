@@ -117,10 +117,7 @@ interface NavItemProps extends FlexProps {
 }
 const NavItem = ({ icon, children, link, ...rest }: NavItemProps) => {
   return (
-    <Link
-      href={link}
-      style={{ textDecoration: "none" }}
-    >
+    <Link href={link} style={{ textDecoration: "none" }}>
       <Flex
         fontWeight="500"
         align="center"
@@ -156,6 +153,7 @@ interface MobileProps extends FlexProps {
   onOpen: () => void;
 }
 const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
+  const { logout } = useContext(AuthContext);
   const { colorMode, toggleColorMode } = useColorMode();
 
   const { user } = useContext(AuthContext);
@@ -232,7 +230,7 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
               <MenuItem>Profile</MenuItem>
               <MenuItem>Settings</MenuItem>
               <MenuDivider />
-              <MenuItem>Sign out</MenuItem>
+              <MenuItem onClick={logout}>Sign out</MenuItem>
             </MenuList>
           </Menu>
         </Flex>
