@@ -153,10 +153,8 @@ interface MobileProps extends FlexProps {
   onOpen: () => void;
 }
 const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
-  const { logout } = useContext(AuthContext);
+  const { user, logout } = useContext(AuthContext);
   const { colorMode, toggleColorMode } = useColorMode();
-
-  const { user } = useContext(AuthContext);
 
   return (
     <Flex
@@ -213,9 +211,9 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
                   spacing="1px"
                   ml="2"
                 >
-                  <Text fontSize="sm">David Siqueira</Text>
+                  <Text fontSize="sm">{user.username}</Text>
                   <Text fontSize="xs" color="gray.600">
-                    Admin
+                    beta tester
                   </Text>
                 </VStack>
                 <Box display={{ base: "none", md: "flex" }}>
