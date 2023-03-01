@@ -25,20 +25,15 @@ export function LancamentosProvider({ children }) {
     const { "caixa-simples-token": token, "caixa-simples-userId": id } =
       parseCookies();
     const authStr = "Bearer ".concat(token);
-    let response = await axios.get(
-      process.env.NEXT_PUBLIC_GET_ALL 
-        || "https://caixa-simples-api.herokuapp.com/lancamentos/all/"
-        + id,
-      {
-        params: {
-          initialDate: initialDate,
-          finalDate: finalDate,
-        },
-        headers: {
-          Authorization: authStr,
-        },
-      }
-    );
+    let response = await axios.get(process.env.NEXT_PUBLIC_GET_ALL + id, {
+      params: {
+        initialDate: initialDate,
+        finalDate: finalDate,
+      },
+      headers: {
+        Authorization: authStr,
+      },
+    });
 
     return response.data;
   }
