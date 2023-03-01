@@ -34,7 +34,7 @@ const Lancamentos = () => {
   const [lancamentos, setLancamentos] = useState<LancamentoType[]>([]);
   const [initialDate, setInitialDate] = useState<string>();
   const [finalDate, setFinalDate] = useState<string>();
-  const [filter, setFilter] = useState<FilterType>({finalDate: 0 , initialDate: 0});
+  const [filter, setFilter] = useState<FilterType>({finalDate: 99999999999999 , initialDate: 0});
 
   useEffect(() => {
     async function load() {
