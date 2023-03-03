@@ -15,7 +15,7 @@ const Caixa = () => {
       if (!(lancamentos.length >= 1)) {
         const lancamentos = await getLancamentos(
           new Date().setHours(0, 0, 1, 0),
-          99999999999999
+          9999999999999
         );
         console.log(lancamentos);
         if (!lancamentos) {
