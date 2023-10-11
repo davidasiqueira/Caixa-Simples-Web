@@ -23,7 +23,7 @@ import {
   useColorMode,
 } from "@chakra-ui/react";
 import { FiTrendingUp, FiMenu, FiChevronDown } from "react-icons/fi";
-import { BsMoonFill, BsSun, BsTable } from "react-icons/bs";
+import { BsMoonFill, BsSun, BsBox, BsTable } from "react-icons/bs";
 import Link from "next/link";
 import { FaCashRegister } from "react-icons/fa";
 import { IconType } from "react-icons";
@@ -40,6 +40,7 @@ const LinkItems: Array<LinkItemProps> = [
   { name: "Dashboard", icon: FiTrendingUp, link: "dashboard" },
   { name: "Caixa", icon: FaCashRegister, link: "caixa" },
   { name: "Lançamentos", icon: BsTable, link: "lancamentos" },
+  { name: "Produtos", icon: BsBox, link: "produtos" },
 ];
 
 export default function SidebarWithHeader({
@@ -93,12 +94,11 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
       {...rest}
     >
       <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
-        <Text fontSize="16px" fontFamily="monospace" fontWeight="bold">
-          <Flex flexDirection="row">
-            <Logo viewBox="none" width="50px" mr={2} />
-            Caixa simples
-          </Flex>
-        </Text>
+        <Flex flexDirection="row">
+          <Logo viewBox="none" width="50px" mr={2} />
+          Caixa simples
+        </Flex>
+
         <CloseButton display={{ base: "flex", md: "none" }} onClick={onClose} />
       </Flex>
       {LinkItems.map((link) => (
@@ -176,17 +176,10 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
         icon={<FiMenu />}
       />
 
-      <Text
-        display={{ base: "flex", md: "none" }}
-        fontSize="16px"
-        fontFamily="monospace"
-        fontWeight="bold"
-      >
-        <Flex flexDirection="row" align="center">
-          <Logo viewBox="none" mt="16px" mr={3} width="50px" />
-          caixa simples
-        </Flex>
-      </Text>
+      <Flex flexDirection="row" align="center">
+        <Logo viewBox="none" mt="16px" mr={3} width="50px" />
+        caixa simples
+      </Flex>
 
       <HStack spacing={{ base: "0", md: "6" }}>
         <IconButton

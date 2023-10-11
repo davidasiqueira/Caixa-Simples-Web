@@ -37,7 +37,7 @@ export function AuthProvider({ children }) {
     if (token && id) {
       const authStr = "Bearer ".concat(token);
       axios
-        .get(process.env.NEXT_PUBLIC_ISVALID_API_URL + id, {
+        .get('http://localhost:3000/auth/isvalid/' + id, {
           headers: {
             Authorization: authStr,
           },
@@ -66,7 +66,7 @@ export function AuthProvider({ children }) {
         data: { access_token, user },
       } = await axios.post(
         process.env.NEXT_PUBLIC_AUTH_API_URL ||
-          "https://caixa-simples-api.herokuapp.com/auth/login",
+          "http://localhost:3000/auth/login",
         {
           username,
           password,
@@ -97,7 +97,7 @@ export function AuthProvider({ children }) {
     try {
       await axios.post(
         process.env.NEXT_PUBLIC_CREATE_USER ||
-          "https://caixa-simples-api.herokuapp.com/users",
+          "http://localhost:3000/users",
         user,
         {}
       );

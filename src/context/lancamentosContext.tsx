@@ -25,7 +25,7 @@ export function LancamentosProvider({ children }) {
     const { "caixa-simples-token": token, "caixa-simples-userId": id } =
       parseCookies();
     const authStr = "Bearer ".concat(token);
-    let response = await axios.get(process.env.NEXT_PUBLIC_GET_ALL + id, {
+    let response = await axios.get('http://localhost:3000/lancamentos/all/' + id, {
       params: {
         initialDate: initialDate,
         finalDate: finalDate,
@@ -48,7 +48,7 @@ export function LancamentosProvider({ children }) {
     try {
       const response = await axios.post(
         process.env.NEXT_PUBLIC_NEW_LANCAMENTO_URL ||
-          "https://caixa-simples-api.herokuapp.com/lancamentos/create",
+          "http://localhost:3000/lancamentos/create",
         {
           userId: id,
           value: lancamento.value,
