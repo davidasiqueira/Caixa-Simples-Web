@@ -41,6 +41,7 @@ const LinkItems: Array<LinkItemProps> = [
   { name: "Caixa", icon: FaCashRegister, link: "caixa" },
   { name: "Lançamentos", icon: BsTable, link: "lancamentos" },
   { name: "Produtos", icon: BsBox, link: "produtos" },
+  { name: "Estoque", icon: BsBox, link: "estoque" },
 ];
 
 export default function SidebarWithHeader({
@@ -127,7 +128,7 @@ const NavItem = ({ icon, children, link, ...rest }: NavItemProps) => {
         role="group"
         cursor="pointer"
         _hover={{
-          bg: "#007AFF",
+          bg: "#E65013",
           color: "white",
         }}
         {...rest}

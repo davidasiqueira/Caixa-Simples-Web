@@ -100,7 +100,7 @@ const CaixaForm = ({ setLancamento }: Props) => {
               />
             </InputGroup>
 
-            <Button type="submit" bg="#4EAB02">
+            <Button textColor="white" type="submit" bg="#E65013">
               lançar
             </Button>
           </Flex>

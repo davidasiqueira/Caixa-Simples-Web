@@ -42,7 +42,9 @@ const Dashboard = () => {
           flexDirection="column"
           alignItems="center"
         >
-          <Text fontSize="2xl" alignSelf='start' mb={16}>Produtos</Text>
+          <Text fontSize="2xl" alignSelf="start" mb={16}>
+            Produtos
+          </Text>
 
           <VStack align="start" spacing={4}>
             <Box>
@@ -81,7 +83,7 @@ const Dashboard = () => {
             <Button colorScheme="red" px={8} fontSize="lg">
               Deletar
             </Button>
-            <Button colorScheme="blue" px={8} fontSize="lg">
+            <Button colorScheme="orange" px={8} fontSize="lg">
               Salvar
             </Button>
           </HStack>

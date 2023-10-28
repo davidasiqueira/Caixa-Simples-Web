@@ -34,7 +34,10 @@ const Lancamentos = () => {
   const [lancamentos, setLancamentos] = useState<LancamentoType[]>([]);
   const [initialDate, setInitialDate] = useState<string>();
   const [finalDate, setFinalDate] = useState<string>();
-  const [filter, setFilter] = useState<FilterType>({finalDate: 99999999999999 , initialDate: 0});
+  const [filter, setFilter] = useState<FilterType>({
+    finalDate: 99999999999999,
+    initialDate: 0,
+  });
 
   useEffect(() => {
     async function load() {
@@ -54,16 +57,24 @@ const Lancamentos = () => {
   }, []);
 
   async function updateFilter() {
-    const initialDateArr = initialDate.split('-').map(date => Number(date))
-    const finalDateArr = finalDate.split('-').map(date => Number(date))
+    const initialDateArr = initialDate.split("-").map((date) => Number(date));
+    const finalDateArr = finalDate.split("-").map((date) => Number(date));
     setFilter({
-      finalDate:  new Date(finalDateArr[0],finalDateArr[1]-1,finalDateArr[2]).getTime() ,
-      initialDate: new Date(initialDateArr[0],initialDateArr[1]-1,initialDateArr[2]).getTime() ,
+      finalDate: new Date(
+        finalDateArr[0],
+        finalDateArr[1] - 1,
+        finalDateArr[2]
+      ).getTime(),
+      initialDate: new Date(
+        initialDateArr[0],
+        initialDateArr[1] - 1,
+        initialDateArr[2]
+      ).getTime(),
     });
   }
 
   useEffect(() => {
-    console.log(filter)
+    console.log(filter);
     async function load() {
       const lancamentos = await getLancamentos(
         filter.initialDate,
@@ -126,7 +137,7 @@ const Lancamentos = () => {
               alignSelf="center"
               borderRadius="18px"
               height="40px"
-              colorScheme="blue"
+              colorScheme="orange"
               aria-label="Search database"
               icon={<SearchIcon />}
               onClick={updateFilter}

@@ -42,11 +42,11 @@ const IndexPage = () => {
       px={{ base: "0", sm: "8" }}
     >
       <Stack spacing="8">
-        <Stack spacing="6">
+        <Stack spacing="6" align="center">
           <Logo />
           <Stack spacing={{ base: "2", md: "3" }} textAlign="center">
             <Heading size={{ base: "xs", md: "sm" }}>
-              Log in to your account
+              Entre na sua conta
             </Heading>
           </Stack>
         </Stack>
@@ -75,9 +75,9 @@ const IndexPage = () => {
               />
             </Stack>
             <HStack justify="space-between">
-              <Checkbox defaultChecked>Remember me</Checkbox>
-              <Button variant="link" colorScheme="blue" size="sm">
-                Forgot password?
+              <Checkbox defaultChecked colorScheme="orange">Remember me</Checkbox>
+              <Button variant="link" colorScheme="orange" size="sm">
+                Esqueceu sua senha?
               </Button>
             </HStack>
             <Stack
@@ -92,21 +92,23 @@ const IndexPage = () => {
                 cursor="pointer"
                 borderRadius="16px"
                 width="110px"
-                onClick={() => {Router.push('/singup')}}
+                onClick={() => {
+                  Router.push("/singup");
+                }}
               >
-                Sing up
+                Cadastro
               </Button>
               <Button
                 width="110px"
                 isLoading={fazendoLogin}
                 variant="solid"
-                colorScheme="blue"
+                colorScheme="orange"
                 borderRadius="16px"
                 type="button"
                 cursor="pointer"
                 onClick={updateUser}
               >
-                Sign in
+                Entrar
               </Button>
             </Stack>
           </Stack>

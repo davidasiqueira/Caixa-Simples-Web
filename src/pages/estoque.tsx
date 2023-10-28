@@ -41,24 +41,24 @@ const Stock = () => {
           alignItems="center"
         >
           <Container maxW="container.xl" py={5}>
-            <Text fontSize="2xl" alignSelf='start' mb={6}>
+            <Text fontSize="2xl" alignSelf="start" mb={6}>
               Estoque
             </Text>
             <Flex columnGap={4}>
-            <Box >
-              <Input
-                type="text"
-                id="searchbar"
-                placeholder="Buscar"
-                focusBorderColor="blue.500"
-              />
-            </Box>
+              <Box>
+                <Input
+                  type="text"
+                  id="searchbar"
+                  placeholder="Buscar"
+                  focusBorderColor="blue.500"
+                />
+              </Box>
 
-            <Select placeholder="Selecionar categoria" maxW='200px'>
-              <option value="comida">Comida</option>
-              <option value="bebida">Bebida</option>
-              <option value="doce">Doce</option>
-            </Select>
+              <Select placeholder="Selecionar categoria" maxW="200px">
+                <option value="comida">Comida</option>
+                <option value="bebida">Bebida</option>
+                <option value="doce">Doce</option>
+              </Select>
             </Flex>
 
             <Table variant="striped" colorScheme="gray">

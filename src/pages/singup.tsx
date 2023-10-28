@@ -25,7 +25,7 @@ const IndexPage = () => {
   const { singUp } = useContext(AuthContext);
 
   async function saveUser() {
-    setFazendoLogin(true)
+    setFazendoLogin(true);
     singUp({
       avatar: avatar,
       email: email,
@@ -95,10 +95,10 @@ const IndexPage = () => {
             </Stack>
 
             <Button
-            isLoading={fazendoLogin}
+              isLoading={fazendoLogin}
               alignSelf="center"
               variant="solid"
-              colorScheme="blue"
+              colorScheme="orange"
               borderRadius="16px"
               type="button"
               cursor="pointer"
