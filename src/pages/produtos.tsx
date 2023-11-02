@@ -1,22 +1,116 @@
+import { useState, useEffect } from "react";
+import axios from "axios";
 import { GetServerSideProps } from "next";
-import { useContext, useState } from "react";
-import SidebarWithHeader from "../components/sidebar/sidebar";
-import { AuthContext } from "../context/authContext";
 import { parseCookies } from "nookies";
 import {
-  Box,
   Flex,
   useColorModeValue,
-  Grid,
+  VStack,
   Input,
   Button,
   Text,
-  VStack,
-  HStack,
+  Box,
+  Select,
+  useToast,
+  FormControl,
 } from "@chakra-ui/react";
+import SidebarWithHeader from "../components/sidebar/sidebar";
+import { Product } from "../types/product";
 
-const Dashboard = () => {
-  const { user } = useContext(AuthContext);
+const INITIAL_PRODUCT_STATE: Product = {
+  name: "",
+  description: "",
+  quantity: 0,
+  productCode: undefined,
+  category: "bebida",
+  price: 0,
+  userId: "",
+};
+
+
+const Products = () => {
+  const toast = useToast();
+  const { "caixa-simples-token": token, "caixa-simples-userId": id } =
+    parseCookies();
+  const [product, setProduct] = useState<Product>(INITIAL_PRODUCT_STATE);
+  const [searchedProduct, setSearchedProduct] = useState<Product | null>(null);
+  const authStr = "Bearer ".concat(token);
+
+  useEffect(() => {
+    const fetchProduct = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:3000/product/one/${product.productCode}/${id}`,
+          {
+            headers: {
+              Authorization: authStr,
+            },
+          }
+        );
+        setSearchedProduct(response.data);
+        setProduct(response.data);
+      } catch (error) {
+        console.error(error);
+        toast({
+          duration: 1000,
+          title: `Produto ${product.productCode} não encontrado `,
+          isClosable: true,
+          status: "error",
+        });
+        setSearchedProduct(null);
+        setProduct({
+          ...INITIAL_PRODUCT_STATE,
+          productCode: product.productCode,
+        });
+      }
+    };
+
+    if (product.productCode) fetchProduct();
+    else setProduct(INITIAL_PRODUCT_STATE);
+  }, [product.productCode]);
+
+  const handleInputChange = (
+    event:
+      | React.ChangeEvent<HTMLInputElement>
+      | React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    const { name, value } = event.target;
+
+    setProduct({ ...product, [name]: value });
+  };
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    try {
+      if (searchedProduct) {
+        const response = await axios.patch(
+          `http://localhost:3000/product/${searchedProduct.productCode}/${id}`,
+          product,
+          {
+            headers: {
+              Authorization: authStr,
+            },
+          }
+        );
+        console.log(response.data);
+      } else {
+        const response = await axios.post(
+          `http://localhost:3000/product/${id}`,
+          { ...product, productCode: undefined, userId: id },
+          {
+            headers: {
+              Authorization: authStr,
+            },
+          }
+        );
+        console.log(response.data);
+      }
+      setProduct(INITIAL_PRODUCT_STATE);
+      setSearchedProduct(null);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <SidebarWithHeader>
@@ -46,54 +140,93 @@ const Dashboard = () => {
             Produtos
           </Text>
 
-          <VStack align="start" spacing={4}>
-            <Box>
-              <Text>Busca</Text>
-              <Input type="text" placeholder="Busca" />
-            </Box>
-
-            <Grid
-              templateColumns={{ sm: "repeat(1, 1fr)", md: "repeat(2, 1fr)" }}
-              gap={6}
-            >
-              <Box>
-                <Text>Nome</Text>
-                <Input type="text" placeholder="Nome" />
-              </Box>
-              <Box>
-                <Text>Descrição do Produto</Text>
-                <Input type="text" placeholder="Descrição do Produto" />
-              </Box>
-              <Box>
-                <Text>Quantidade</Text>
-                <Input type="text" placeholder="Quantidade" />
-              </Box>
-              <Box>
-                <Text>Preço Unitário</Text>
-                <Input type="text" placeholder="Preço Unitário" />
-              </Box>
-              <Box>
-                <Text>Código</Text>
-                <Input type="text" placeholder="Código" />
-              </Box>
-            </Grid>
-          </VStack>
-
-          <HStack spacing={4} mt={8}>
-            <Button colorScheme="red" px={8} fontSize="lg">
-              Deletar
-            </Button>
-            <Button colorScheme="orange" px={8} fontSize="lg">
-              Salvar
-            </Button>
-          </HStack>
+          <form onSubmit={handleSubmit}>
+            <Flex gap={4}>
+              <VStack align="start" spacing={4}>
+                <FormControl>
+                  <Text>Código</Text>
+                  <Input
+                    type="text"
+                    placeholder="Código"
+                    name="productCode"
+                    value={product.productCode}
+                    onChange={handleInputChange}
+                  />
+                </FormControl>
+                <FormControl isRequired>
+                  <Text>Nome</Text>
+                  <Input
+                    type="text"
+                    placeholder="Nome"
+                    name="name"
+                    value={product.name}
+                    onChange={handleInputChange}
+                  />
+                </FormControl>
+                <FormControl isRequired>
+                  <Text>Descrição do Produto</Text>
+                  <Input
+                    type="text"
+                    placeholder="Descrição do Produto"
+                    name="description"
+                    value={product.description}
+                    onChange={handleInputChange}
+                  />
+                </FormControl>
+              </VStack>
+              <VStack align="start" spacing={4}>
+                <FormControl isRequired>
+                  <Text>Quantidade</Text>
+                  <Input
+                    type="number"
+                    placeholder="Quantidade"
+                    name="quantity"
+                    value={product.quantity}
+                    onChange={handleInputChange}
+                  />
+                </FormControl>
+                <FormControl isRequired>
+                  <Text>Preço Unitário</Text>
+                  <Input
+                    type="number"
+                    placeholder="Preço Unitário"
+                    name="price"
+                    value={product.price}
+                    onChange={handleInputChange}
+                  />
+                </FormControl>
+                <FormControl isRequired>
+                  <Text>Categoria</Text>
+                  <Select
+                    name="category"
+                    value={product.category}
+                    onChange={handleInputChange}
+                  >
+                    <option value="bebida">Bebida</option>
+                    <option value="comida">Comida</option>
+                    <option value="doce">Doce</option>
+                    <option value="outros">Outros</option>
+                  </Select>
+                </FormControl>
+                <Button
+                  alignSelf="center"
+                  type="submit"
+                  colorScheme="orange"
+                  px={8}
+                  fontSize="lg"
+                >
+                  Salvar
+                </Button>
+              </VStack>
+            </Flex>
+          </form>
         </Box>
       </Flex>
     </SidebarWithHeader>
   );
 };
 
-export default Dashboard;
+export default Products;
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const { "caixa-simples-token": token } = parseCookies(ctx);

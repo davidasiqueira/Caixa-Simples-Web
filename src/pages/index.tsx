@@ -29,6 +29,7 @@ const IndexPage = () => {
     //fazer try catch
     setFazendoLogin(true);
     await signIn(data);
+    setFazendoLogin(false);
   }
 
   async function updateUser() {

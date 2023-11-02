@@ -12,10 +12,43 @@ import {
   Text,
   Flex,
   useColorModeValue,
+  TableContainer,
+  Badge,
+  Tag,
+  TagLabel,
+  TagCloseButton,
+  Heading,
 } from "@chakra-ui/react";
 import SidebarWithHeader from "../components/sidebar/sidebar";
+import { GetServerSideProps } from "next";
+import { parseCookies } from "nookies";
+import axios from "axios";
+import { Product } from "../types/product";
+import { useEffect, useState } from "react";
 
-const Stock = () => {
+interface Props {
+  products: Product[];
+}
+
+const Stock = ({ products }: Props) => {
+  const categories = ["comida", "bebida", "doce", "outros"];
+  const [filterTags, setFilterTags] = useState<string[]>([]);
+  const [textfilter, setTextFilter] = useState<string>("");
+  const [filteredProducts, setFilteredProducts] = useState<Product[]>(products);
+
+  useEffect(() => {
+    setFilteredProducts(products.filter((product) => filterTags.includes(product.category)));
+    if(filterTags.length === 0) setFilteredProducts(products);
+  }, [filterTags]);
+
+  useEffect(() => {
+    setFilteredProducts(products.filter((product) => product.name.toLowerCase().includes(textfilter.toLowerCase())));
+  }, [textfilter]);
+
+  const removeTag = (tag: string) => {
+    setFilterTags(filterTags.filter((t) => t !== tag));
+  };
+
   return (
     <SidebarWithHeader>
       <Flex
@@ -38,33 +71,56 @@ const Stock = () => {
           p="20px"
           display="flex"
           flexDirection="column"
-          alignItems="center"
         >
-          <Container maxW="container.xl" py={5}>
-            <Text fontSize="2xl" alignSelf="start" mb={6}>
-              Estoque
-            </Text>
-            <Flex columnGap={4}>
-              <Box>
-                <Input
-                  type="text"
-                  id="searchbar"
-                  placeholder="Buscar"
-                  focusBorderColor="blue.500"
-                />
-              </Box>
+          <Heading size="md">Estoque</Heading>
+          <Flex align="baseline" columnGap="10px" mb="5px" mt="5px">
+            <Input
+              
+              borderRadius="full"
+              maxWidth="20%"
+              type="text"
+              placeholder="Filtrar"
+              value={textfilter}
+              onChange={(e) => setTextFilter(e.target.value)}
+            />
+            <Select
+              textColor="gray.500"
+              borderRadius="full"
+              maxWidth="20%"
+              name="category"
+              placeholder="Filtre por categoria"
+              value="0"
+              onChange={(e) => setFilterTags([...filterTags, e.target.value])}
+            >
+              {categories.map((category) => (
+                <option value={category}>{category}</option>
+              ))}
+            </Select>
+            {filterTags.map((tag, idx) => (
+              <Tag
+                size="lg"
+                key={idx}
+                borderRadius="full"
+                variant="solid"
+                colorScheme={
+                  tag === "comida"
+                    ? "yellow"
+                    : tag === "bebida"
+                    ? "blue"
+                    : "pink"
+                }
+              >
+                <TagLabel>{tag}</TagLabel>
+                <TagCloseButton onClick={() => removeTag(tag)} />
+              </Tag>
+            ))}
+          </Flex>
 
-              <Select placeholder="Selecionar categoria" maxW="200px">
-                <option value="comida">Comida</option>
-                <option value="bebida">Bebida</option>
-                <option value="doce">Doce</option>
-              </Select>
-            </Flex>
-
-            <Table variant="striped" colorScheme="gray">
+          <TableContainer overflowY="auto">
+            <Table variant="simple" size={["sm", "sm", "sm", "md", "lg"]}>
               <Thead>
                 <Tr>
-                  <Th>#ID</Th>
+                  <Th>Código</Th>
                   <Th>Categoria</Th>
                   <Th>Nome</Th>
                   <Th>Valor</Th>
@@ -73,33 +129,44 @@ const Stock = () => {
                 </Tr>
               </Thead>
               <Tbody>
-                <Tr>
-                  <Td>1</Td>
-                  <Td>Bebida</Td>
-                  <Td>Cafe</Td>
-                  <Td>R$ 3,90</Td>
-                  <Td>essa é uma descrição</Td>
-                  <Td>8</Td>
-                </Tr>
-                <Tr>
-                  <Td>2</Td>
-                  <Td>Doce</Td>
-                  <Td>Torta</Td>
-                  <Td>R$ 7,90</Td>
-                  <Td>essa é uma descrição</Td>
-                  <Td>4</Td>
-                </Tr>
-                <Tr>
-                  <Td>3</Td>
-                  <Td>Comida</Td>
-                  <Td>arroz</Td>
-                  <Td>R$ 17,90</Td>
-                  <Td>essa é uma descrição</Td>
-                  <Td>5</Td>
-                </Tr>
+                {filteredProducts &&
+                  filteredProducts.map((product) => (
+                    <Tr>
+                      <Td>{product.productCode}</Td>
+                      <Td>
+                        <Badge
+                          variant="solid"
+                          p="4px 8px"
+                          borderRadius="9999px"
+                          colorScheme={
+                            product.category === "comida"
+                              ? "yellow"
+                              : product.category === "bebida"
+                              ? "blue"
+                              : "pink"
+                          }
+                        >
+                          {product.category}
+                        </Badge>
+                      </Td>
+                      <Td>{product.name}</Td>
+                      <Td>R${product.price.toFixed(2)}</Td>
+                      <Td>{product.description}</Td>
+                      <Td>
+                        <Badge
+                          variant="solid"
+                          p="4px 8px"
+                          borderRadius="9999px"
+                          colorScheme={product.quantity > 10 ? "green" : "red"}
+                        >
+                          {product.quantity}
+                        </Badge>
+                      </Td>
+                    </Tr>
+                  ))}
               </Tbody>
             </Table>
-          </Container>
+          </TableContainer>
         </Box>
       </Flex>
     </SidebarWithHeader>
@@ -107,3 +174,35 @@ const Stock = () => {
 };
 
 export default Stock;
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const { "caixa-simples-token": token, "caixa-simples-userId": id } =
+    parseCookies(ctx);
+
+  if (!token || !id) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
+
+  try {
+    const authStr = "Bearer ".concat(token);
+    const res = await axios.get(`http://localhost:3000/product/all/${id}`, {
+      headers: {
+        Authorization: authStr,
+      },
+    });
+    return {
+      props: {
+        products: res.data,
+      },
+    };
+  } catch (error) {
+    return {
+      props: {},
+    };
+  }
+};

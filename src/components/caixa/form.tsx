@@ -9,8 +9,11 @@ import {
   InputLeftElement,
   Select,
   useRadioGroup,
+  useToast,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import axios from "axios";
+import { parseCookies } from "nookies";
+import { useEffect, useState } from "react";
 import { RadioCard } from "./radioButton";
 
 interface Props {
@@ -21,14 +24,48 @@ const CaixaForm = ({ setLancamento }: Props) => {
   const [valor, setValor] = useState<string>("");
   const [account, setAccount] = useState<string>("Cash");
   const [description, setDescription] = useState<string>();
-
-  const options = ["Entrada", "Saida"];
+  const [productCode, setProductCode] = useState<string>("");
   const [movimento, setMovimento] = useState<string>("Entrada");
   const { getRootProps, getRadioProps } = useRadioGroup({
     name: "operacao",
     defaultValue: "Entrada",
     onChange: setMovimento,
   });
+  const toast = useToast();
+
+  const { "caixa-simples-token": token, "caixa-simples-userId": id } =
+    parseCookies();
+  const authStr = "Bearer ".concat(token);
+  const options = ["Entrada", "Saida"];
+
+  useEffect(() => {
+    const fetchProduct = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:3000/product/one/${productCode}/${id}`,
+          {
+            headers: {
+              Authorization: authStr,
+            },
+          }
+        );
+        setValor(response.data.price.toFixed(2));
+        setDescription(response.data.description);
+        setMovimento("Entrada");
+      } catch (error) {
+        console.error(error);
+        toast({
+          duration: 1000,
+          title: `Produto ${productCode} não encontrado `,
+          isClosable: true,
+          status: "error",
+        });
+      }
+    };
+
+    if (productCode) fetchProduct();
+  }, [productCode]);
+
   const group = getRootProps();
 
   const updateLancamento = (event: React.FormEvent<HTMLFormElement>) => {
@@ -46,8 +83,17 @@ const CaixaForm = ({ setLancamento }: Props) => {
     <Box margin="auto">
       <form onSubmit={updateLancamento}>
         <Flex width="400px" height="300px" margin="auto">
-          <Flex flexDir="column" mt="auto" mb="auto" p="10px" rowGap="20px">
+          <Flex flexDir="column" p="10px" rowGap="20px">
             <HStack {...group} display="flex" flexDir="column" rowGap="20px">
+              <Input
+                type="text"
+                ml="8px"
+                placeholder="Código"
+                width="120px"
+                name="productCode"
+                value={productCode}
+                onChange={(e) => setProductCode(e.target.value)}
+              />
               {options.map((value) => {
                 const radio = getRadioProps({ value });
                 return (
@@ -71,7 +117,7 @@ const CaixaForm = ({ setLancamento }: Props) => {
               <option value="Cartao">Cartão</option>
             </Select>
           </Flex>
-          <Flex flexDir="column" ml="10px" mt="auto" mb="auto" rowGap="20px">
+          <Flex flexDir="column" ml="10px" mt="70px" mb="auto" rowGap="20px">
             <InputGroup>
               <InputLeftElement
                 pointerEvents="none"
@@ -82,7 +128,8 @@ const CaixaForm = ({ setLancamento }: Props) => {
               <Input
                 required
                 size="lg"
-                placeholder="Enter amount"
+                placeholder="Digite o valor"
+                value={valor}
                 onChange={(event) => setValor(event.target.value)}
               />
             </InputGroup>
@@ -96,6 +143,7 @@ const CaixaForm = ({ setLancamento }: Props) => {
                 size="lg"
                 type="text"
                 placeholder="Descrição"
+                value={description}
                 onChange={(event) => setDescription(event.target.value)}
               />
             </InputGroup>

@@ -4,12 +4,12 @@ import { LancamentosProvider } from "../context/lancamentosContext";
 
 export default function App({ Component, pageProps }) {
   return (
-    <AuthProvider>
-      <LancamentosProvider>
-        <ChakraProvider>
+    <ChakraProvider>
+      <AuthProvider>
+        <LancamentosProvider>
           <Component {...pageProps} />
-        </ChakraProvider>
-      </LancamentosProvider>
-    </AuthProvider>
+        </LancamentosProvider>
+      </AuthProvider>
+    </ChakraProvider>
   );
 }

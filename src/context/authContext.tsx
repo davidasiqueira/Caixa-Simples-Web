@@ -3,6 +3,7 @@ import axios from "axios";
 import { setCookie, parseCookies, destroyCookie } from "nookies";
 import Router from "next/router";
 import { SaveUserType } from "../types/lancamento";
+import { useToast } from "@chakra-ui/react";
 
 type User = {
   userId: string;
@@ -27,6 +28,7 @@ export const AuthContext = createContext({} as AuthContextType);
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState<User | null>(null);
+  const toast = useToast();
 
   const isAuthenticated = !!user;
 
@@ -89,6 +91,13 @@ export function AuthProvider({ children }) {
 
       Router.push("/dashboard");
     } catch (error) {
+      toast({
+        title: 'Erro ao fazer login',
+        description: 'Verifique suas credenciais',
+        status: 'error',
+        duration: 3000,
+        isClosable: true,
+      })
       console.log(error);
     }
   }

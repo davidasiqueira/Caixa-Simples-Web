@@ -26,9 +26,9 @@ const CaixaTable = ({ lancamentos }: Props) => {
           </Tr>
         </Thead>
         <Tbody>
-          {lancamentos.map((lancamento) => {
+          {lancamentos.map((lancamento, idx) => {
             return (
-              <Tr>
+              <Tr id={idx.toString()}>
                 <Td>
                   <Badge
                     variant="solid"
