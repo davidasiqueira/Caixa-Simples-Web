@@ -95,9 +95,9 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
       {...rest}
     >
       <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
-        <Flex flexDirection="row">
-          <Logo viewBox="none" width="50px" mr={2} />
-          Caixa simples
+        <Flex flexDirection="row" align="center">
+          <Logo />
+          <Text fontWeight="bold" color="gray.600">Caixa simples</Text>
         </Flex>
 
         <CloseButton display={{ base: "flex", md: "none" }} onClick={onClose} />
@@ -176,11 +176,6 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
         aria-label="open menu"
         icon={<FiMenu />}
       />
-
-      <Flex flexDirection="row" align="center">
-        <Logo viewBox="none" mt="16px" mr={3} width="50px" />
-        caixa simples
-      </Flex>
 
       <HStack spacing={{ base: "0", md: "6" }}>
         <IconButton

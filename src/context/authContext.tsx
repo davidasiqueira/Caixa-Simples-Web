@@ -27,10 +27,10 @@ type AuthContextType = {
 export const AuthContext = createContext({} as AuthContextType);
 
 export function AuthProvider({ children }) {
-  const [user, setUser] = useState<User | null>(null);
+  const [usuario, setUser] = useState<User | null>(null);
   const toast = useToast();
 
-  const isAuthenticated = !!user;
+  const isAuthenticated = !!usuario;
 
   useEffect(() => {
     const { "caixa-simples-token": token, "caixa-simples-userId": id } =
@@ -52,7 +52,7 @@ export function AuthProvider({ children }) {
           }
           setUser({
             userId: id,
-            username: response.data.name,
+            username: response.data.username,
             avatar: response.data.avatar,
           });
         })
@@ -123,7 +123,7 @@ export function AuthProvider({ children }) {
 
   return (
     <AuthContext.Provider
-      value={{ user, isAuthenticated, signIn, singUp, logout }}
+      value={{ user: usuario, isAuthenticated, signIn, singUp, logout }}
     >
       {children}
     </AuthContext.Provider>
