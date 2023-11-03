@@ -29,7 +29,6 @@ export const AuthContext = createContext({} as AuthContextType);
 export function AuthProvider({ children }) {
   const [usuario, setUser] = useState<User | null>(null);
   const toast = useToast();
-  const URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
 
   const isAuthenticated = !!usuario;
 
@@ -40,11 +39,15 @@ export function AuthProvider({ children }) {
     if (token && id) {
       const authStr = "Bearer ".concat(token);
       axios
-        .get(`${URL}/auth/isvalid/` + id, {
-          headers: {
-            Authorization: authStr,
-          },
-        })
+        .get(
+          `https://caixa-simples-backend-de26a6191b1d.herokuapp.com/auth/isvalid/` +
+            id,
+          {
+            headers: {
+              Authorization: authStr,
+            },
+          }
+        )
         .then((response) => {
           if (!response.data.name) {
             destroyCookie(undefined, "caixa-simples-token");
@@ -68,7 +71,7 @@ export function AuthProvider({ children }) {
       const {
         data: { access_token, user },
       } = await axios.post(
-        `${URL}/auth/login`,
+        `https://caixa-simples-backend-de26a6191b1d.herokuapp.com/auth/login`,
         {
           username,
           password,
@@ -92,12 +95,12 @@ export function AuthProvider({ children }) {
       Router.push("/dashboard");
     } catch (error) {
       toast({
-        title: 'Erro ao fazer login',
-        description: 'Verifique suas credenciais',
-        status: 'error',
+        title: "Erro ao fazer login",
+        description: "Verifique suas credenciais",
+        status: "error",
         duration: 3000,
         isClosable: true,
-      })
+      });
       console.log(error);
     }
   }
@@ -105,7 +108,7 @@ export function AuthProvider({ children }) {
   async function singUp(user: SaveUserType) {
     try {
       await axios.post(
-        `${URL}/users`,
+        `https://caixa-simples-backend-de26a6191b1d.herokuapp.com/users`,
         user,
         {}
       );

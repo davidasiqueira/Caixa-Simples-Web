@@ -27,7 +27,6 @@ const INITIAL_PRODUCT_STATE: Product = {
   userId: "",
 };
 
-
 const Products = () => {
   const toast = useToast();
   const { "caixa-simples-token": token, "caixa-simples-userId": id } =
@@ -35,13 +34,12 @@ const Products = () => {
   const [product, setProduct] = useState<Product>(INITIAL_PRODUCT_STATE);
   const [searchedProduct, setSearchedProduct] = useState<Product | null>(null);
   const authStr = "Bearer ".concat(token);
-  const URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
 
   useEffect(() => {
     const fetchProduct = async () => {
       try {
         const response = await axios.get(
-          `${URL}/product/one/${product.productCode}/${id}`,
+          `https://caixa-simples-backend-de26a6191b1d.herokuapp.com/product/one/${product.productCode}/${id}`,
           {
             headers: {
               Authorization: authStr,
@@ -85,7 +83,7 @@ const Products = () => {
     try {
       if (searchedProduct) {
         const response = await axios.patch(
-          `${URL}/product/${searchedProduct.productCode}/${id}`,
+          `https://caixa-simples-backend-de26a6191b1d.herokuapp.com/product/${searchedProduct.productCode}/${id}`,
           product,
           {
             headers: {
@@ -95,7 +93,7 @@ const Products = () => {
         );
       } else {
         const response = await axios.post(
-          `${URL}/product/${id}`,
+          `https://caixa-simples-backend-de26a6191b1d.herokuapp.com/product/${id}`,
           { ...product, productCode: undefined, userId: id },
           {
             headers: {

@@ -21,7 +21,6 @@ interface Props {
 }
 
 const CaixaForm = ({ setLancamento }: Props) => {
-  const URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
   const [valor, setValor] = useState<string>("");
   const [account, setAccount] = useState<string>("Cash");
   const [description, setDescription] = useState<string>();
@@ -42,7 +41,7 @@ const CaixaForm = ({ setLancamento }: Props) => {
     const fetchProduct = async () => {
       try {
         const response = await axios.get(
-          `${URL}/product/one/${productCode}/${id}`,
+          `https://caixa-simples-backend-de26a6191b1d.herokuapp.com/product/one/${productCode}/${id}`,
           {
             headers: {
               Authorization: authStr,

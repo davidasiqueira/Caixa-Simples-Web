@@ -37,12 +37,18 @@ const Stock = ({ products }: Props) => {
   const [filteredProducts, setFilteredProducts] = useState<Product[]>(products);
 
   useEffect(() => {
-    setFilteredProducts(products.filter((product) => filterTags.includes(product.category)));
-    if(filterTags.length === 0) setFilteredProducts(products);
+    setFilteredProducts(
+      products.filter((product) => filterTags.includes(product.category))
+    );
+    if (filterTags.length === 0) setFilteredProducts(products);
   }, [filterTags]);
 
   useEffect(() => {
-    setFilteredProducts(products.filter((product) => product.name.toLowerCase().includes(textfilter.toLowerCase())));
+    setFilteredProducts(
+      products.filter((product) =>
+        product.name.toLowerCase().includes(textfilter.toLowerCase())
+      )
+    );
   }, [textfilter]);
 
   const removeTag = (tag: string) => {
@@ -75,7 +81,6 @@ const Stock = ({ products }: Props) => {
           <Heading size="md">Estoque</Heading>
           <Flex align="baseline" columnGap="10px" mb="5px" mt="5px">
             <Input
-              
               borderRadius="full"
               maxWidth="20%"
               type="text"
@@ -176,7 +181,6 @@ const Stock = ({ products }: Props) => {
 export default Stock;
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
   const { "caixa-simples-token": token, "caixa-simples-userId": id } =
     parseCookies(ctx);
 
@@ -191,11 +195,14 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
   try {
     const authStr = "Bearer ".concat(token);
-    const res = await axios.get(`${URL}/product/all/${id}`, {
-      headers: {
-        Authorization: authStr,
-      },
-    });
+    const res = await axios.get(
+      `https://caixa-simples-backend-de26a6191b1d.herokuapp.com/product/all/${id}`,
+      {
+        headers: {
+          Authorization: authStr,
+        },
+      }
+    );
     return {
       props: {
         products: res.data,
