@@ -29,6 +29,7 @@ export const AuthContext = createContext({} as AuthContextType);
 export function AuthProvider({ children }) {
   const [usuario, setUser] = useState<User | null>(null);
   const toast = useToast();
+  const URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
 
   const isAuthenticated = !!usuario;
 
@@ -39,7 +40,7 @@ export function AuthProvider({ children }) {
     if (token && id) {
       const authStr = "Bearer ".concat(token);
       axios
-        .get(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000"}/auth/isvalid/` + id, {
+        .get(`${URL}/auth/isvalid/` + id, {
           headers: {
             Authorization: authStr,
           },
@@ -67,7 +68,7 @@ export function AuthProvider({ children }) {
       const {
         data: { access_token, user },
       } = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000"}/auth/login`,
+        `${URL}/auth/login`,
         {
           username,
           password,
@@ -104,7 +105,7 @@ export function AuthProvider({ children }) {
   async function singUp(user: SaveUserType) {
     try {
       await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000"}/users`,
+        `${URL}/users`,
         user,
         {}
       );

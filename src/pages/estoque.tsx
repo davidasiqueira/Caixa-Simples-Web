@@ -176,6 +176,7 @@ const Stock = ({ products }: Props) => {
 export default Stock;
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
   const { "caixa-simples-token": token, "caixa-simples-userId": id } =
     parseCookies(ctx);
 
@@ -190,7 +191,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
   try {
     const authStr = "Bearer ".concat(token);
-    const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000"}/product/all/${id}`, {
+    const res = await axios.get(`${URL}/product/all/${id}`, {
       headers: {
         Authorization: authStr,
       },

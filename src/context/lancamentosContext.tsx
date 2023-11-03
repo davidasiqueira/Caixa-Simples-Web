@@ -17,6 +17,7 @@ export const LancamentosContext = createContext({} as LancamentosContextType);
 
 export function LancamentosProvider({ children }) {
   const [lancamentos, setLancamento] = useState<LancamentoType[]>([]);
+  const URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
 
   async function getLancamentos(
     initialDate: number,
@@ -25,7 +26,7 @@ export function LancamentosProvider({ children }) {
     const { "caixa-simples-token": token, "caixa-simples-userId": id } =
       parseCookies();
     const authStr = "Bearer ".concat(token);
-    let response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000"}/lancamentos/all/` + id, {
+    let response = await axios.get(`${URL}/lancamentos/all/` + id, {
       params: {
         initialDate: initialDate,
         finalDate: finalDate,

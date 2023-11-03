@@ -35,12 +35,13 @@ const Products = () => {
   const [product, setProduct] = useState<Product>(INITIAL_PRODUCT_STATE);
   const [searchedProduct, setSearchedProduct] = useState<Product | null>(null);
   const authStr = "Bearer ".concat(token);
+  const URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
 
   useEffect(() => {
     const fetchProduct = async () => {
       try {
         const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000"}/product/one/${product.productCode}/${id}`,
+          `${URL}/product/one/${product.productCode}/${id}`,
           {
             headers: {
               Authorization: authStr,
@@ -84,7 +85,7 @@ const Products = () => {
     try {
       if (searchedProduct) {
         const response = await axios.patch(
-          `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000"}/product/${searchedProduct.productCode}/${id}`,
+          `${URL}/product/${searchedProduct.productCode}/${id}`,
           product,
           {
             headers: {
@@ -94,7 +95,7 @@ const Products = () => {
         );
       } else {
         const response = await axios.post(
-          `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000"}/product/${id}`,
+          `${URL}/product/${id}`,
           { ...product, productCode: undefined, userId: id },
           {
             headers: {

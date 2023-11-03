@@ -21,6 +21,7 @@ interface Props {
 }
 
 const CaixaForm = ({ setLancamento }: Props) => {
+  const URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
   const [valor, setValor] = useState<string>("");
   const [account, setAccount] = useState<string>("Cash");
   const [description, setDescription] = useState<string>();
@@ -41,9 +42,7 @@ const CaixaForm = ({ setLancamento }: Props) => {
     const fetchProduct = async () => {
       try {
         const response = await axios.get(
-          `${
-            process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000"
-          }/product/one/${productCode}/${id}`,
+          `${URL}/product/one/${productCode}/${id}`,
           {
             headers: {
               Authorization: authStr,
