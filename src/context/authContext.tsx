@@ -67,8 +67,7 @@ export function AuthProvider({ children }) {
       const {
         data: { access_token, user },
       } = await axios.post(
-        process.env.NEXT_PUBLIC_AUTH_API_URL ||
-          "http://localhost:3000/auth/login",
+        `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000"}/auth/login`,
         {
           username,
           password,
