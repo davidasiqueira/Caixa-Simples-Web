@@ -17,7 +17,6 @@ const Caixa = () => {
           new Date().setHours(0, 0, 1, 0),
           9999999999999
         );
-        console.log(lancamentos);
         if (!lancamentos) {
         } else if (!Array.isArray(lancamentos)) {
         } else {

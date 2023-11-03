@@ -92,7 +92,6 @@ const Products = () => {
             },
           }
         );
-        console.log(response.data);
       } else {
         const response = await axios.post(
           `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000"}/product/${id}`,
@@ -103,7 +102,6 @@ const Products = () => {
             },
           }
         );
-        console.log(response.data);
       }
       setProduct(INITIAL_PRODUCT_STATE);
       setSearchedProduct(null);

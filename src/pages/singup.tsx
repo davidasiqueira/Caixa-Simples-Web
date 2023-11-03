@@ -41,7 +41,7 @@ const IndexPage = () => {
       px={{ base: "0", sm: "8" }}
     >
       <Stack spacing="8">
-        <Stack spacing="6">
+        <Stack spacing="6" align="center">
           <Logo />
           <Stack spacing={{ base: "2", md: "3" }} textAlign="center">
             <Heading size={{ base: "xs", md: "sm" }}>

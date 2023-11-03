@@ -74,7 +74,6 @@ const Lancamentos = () => {
   }
 
   useEffect(() => {
-    console.log(filter);
     async function load() {
       const lancamentos = await getLancamentos(
         filter.initialDate,
