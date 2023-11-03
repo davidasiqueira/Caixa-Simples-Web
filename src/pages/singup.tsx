@@ -104,7 +104,7 @@ const IndexPage = () => {
               cursor="pointer"
               onClick={saveUser}
             >
-              SingUp and login
+              Cadastrar e logar
             </Button>
           </Stack>
         </Box>
