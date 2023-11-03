@@ -40,7 +40,7 @@ const Products = () => {
     const fetchProduct = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3000/product/one/${product.productCode}/${id}`,
+          `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000"}/product/one/${product.productCode}/${id}`,
           {
             headers: {
               Authorization: authStr,
@@ -84,7 +84,7 @@ const Products = () => {
     try {
       if (searchedProduct) {
         const response = await axios.patch(
-          `http://localhost:3000/product/${searchedProduct.productCode}/${id}`,
+          `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000"}/product/${searchedProduct.productCode}/${id}`,
           product,
           {
             headers: {
@@ -95,7 +95,7 @@ const Products = () => {
         console.log(response.data);
       } else {
         const response = await axios.post(
-          `http://localhost:3000/product/${id}`,
+          `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000"}/product/${id}`,
           { ...product, productCode: undefined, userId: id },
           {
             headers: {

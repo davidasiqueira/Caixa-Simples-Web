@@ -190,7 +190,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
   try {
     const authStr = "Bearer ".concat(token);
-    const res = await axios.get(`http://localhost:3000/product/all/${id}`, {
+    const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000"}/product/all/${id}`, {
       headers: {
         Authorization: authStr,
       },

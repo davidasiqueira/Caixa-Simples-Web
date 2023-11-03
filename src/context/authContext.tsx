@@ -39,7 +39,7 @@ export function AuthProvider({ children }) {
     if (token && id) {
       const authStr = "Bearer ".concat(token);
       axios
-        .get('http://localhost:3000/auth/isvalid/' + id, {
+        .get(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000"}/auth/isvalid/` + id, {
           headers: {
             Authorization: authStr,
           },
@@ -105,8 +105,7 @@ export function AuthProvider({ children }) {
   async function singUp(user: SaveUserType) {
     try {
       await axios.post(
-        process.env.NEXT_PUBLIC_CREATE_USER ||
-          "http://localhost:3000/users",
+        `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000"}/users`,
         user,
         {}
       );

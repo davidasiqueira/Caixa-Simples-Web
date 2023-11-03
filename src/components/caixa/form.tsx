@@ -37,12 +37,13 @@ const CaixaForm = ({ setLancamento }: Props) => {
     parseCookies();
   const authStr = "Bearer ".concat(token);
   const options = ["Entrada", "Saida"];
-
   useEffect(() => {
     const fetchProduct = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3000/product/one/${productCode}/${id}`,
+          `${
+            process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000"
+          }/product/one/${productCode}/${id}`,
           {
             headers: {
               Authorization: authStr,
