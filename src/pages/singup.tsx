@@ -42,7 +42,7 @@ const IndexPage = () => {
     >
       <Stack spacing="8">
         <Stack spacing="6" align="center">
-          <GiDelicatePerfume width="50px" color="#3182CE" />
+          <GiDelicatePerfume size={40} color="#3182CE" />
           <Stack spacing={{ base: "2", md: "3" }} textAlign="center">
             <Heading size={{ base: "xs", md: "sm" }}>
               Create a new account
