@@ -10,7 +10,7 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import { useContext, useState } from "react";
-import { Logo } from "../components/login/Logo";
+import { GiDelicatePerfume } from "react-icons/gi";
 import { PasswordField } from "../components/login/PasswordField";
 import { AuthContext } from "../context/authContext";
 
@@ -42,7 +42,7 @@ const IndexPage = () => {
     >
       <Stack spacing="8">
         <Stack spacing="6" align="center">
-          <Logo />
+          <GiDelicatePerfume width={50} color="blue" />
           <Stack spacing={{ base: "2", md: "3" }} textAlign="center">
             <Heading size={{ base: "xs", md: "sm" }}>
               Create a new account
@@ -98,7 +98,7 @@ const IndexPage = () => {
               isLoading={fazendoLogin}
               alignSelf="center"
               variant="solid"
-              colorScheme="orange"
+              colorScheme="blue"
               borderRadius="16px"
               type="button"
               cursor="pointer"

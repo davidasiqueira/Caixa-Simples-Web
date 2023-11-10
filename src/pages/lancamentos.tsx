@@ -136,7 +136,7 @@ const Lancamentos = () => {
               alignSelf="center"
               borderRadius="18px"
               height="40px"
-              colorScheme="orange"
+              colorScheme="blue"
               aria-label="Search database"
               icon={<SearchIcon />}
               onClick={updateFilter}

@@ -22,7 +22,7 @@ const INITIAL_PRODUCT_STATE: Product = {
   description: "",
   quantity: 0,
   productCode: undefined,
-  category: "bebida",
+  category: "perfume",
   price: 0,
   userId: "",
 };
@@ -199,16 +199,16 @@ const Products = () => {
                     value={product.category}
                     onChange={handleInputChange}
                   >
-                    <option value="bebida">Bebida</option>
-                    <option value="comida">Comida</option>
-                    <option value="doce">Doce</option>
+                    <option value="perfume">Perfume</option>
+                    <option value="creme">Creme</option>
+                    <option value="body splash">Body splash</option>
                     <option value="outros">Outros</option>
                   </Select>
                 </FormControl>
                 <Button
                   alignSelf="center"
                   type="submit"
-                  colorScheme="orange"
+                  colorScheme="blue"
                   px={8}
                   fontSize="lg"
                 >

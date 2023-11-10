@@ -31,7 +31,7 @@ interface Props {
 }
 
 const Stock = ({ products }: Props) => {
-  const categories = ["comida", "bebida", "doce", "outros"];
+  const categories = ["creme", "perfume", "body splash", "outros"];
   const [filterTags, setFilterTags] = useState<string[]>([]);
   const [textfilter, setTextFilter] = useState<string>("");
   const [filteredProducts, setFilteredProducts] = useState<Product[]>(products);
@@ -108,9 +108,9 @@ const Stock = ({ products }: Props) => {
                 borderRadius="full"
                 variant="solid"
                 colorScheme={
-                  tag === "comida"
+                  tag === "perfume"
                     ? "yellow"
-                    : tag === "bebida"
+                    : tag === "creme"
                     ? "blue"
                     : "pink"
                 }
@@ -144,9 +144,9 @@ const Stock = ({ products }: Props) => {
                           p="4px 8px"
                           borderRadius="9999px"
                           colorScheme={
-                            product.category === "comida"
+                            product.category === "perfume"
                               ? "yellow"
-                              : product.category === "bebida"
+                              : product.category === "creme"
                               ? "blue"
                               : "pink"
                           }

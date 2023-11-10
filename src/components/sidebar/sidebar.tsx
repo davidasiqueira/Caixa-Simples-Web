@@ -28,8 +28,8 @@ import Link from "next/link";
 import { FaCashRegister } from "react-icons/fa";
 import { IconType } from "react-icons";
 import { ReactText } from "react";
-import { Logo } from "../login/Logo";
 import { AuthContext } from "../../context/authContext";
+import { GiDelicatePerfume } from "react-icons/gi";
 
 interface LinkItemProps {
   name: string;
@@ -96,8 +96,10 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
     >
       <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
         <Flex flexDirection="row" align="center">
-          <Logo />
-          <Text fontWeight="bold" color="gray.600">Caixa simples</Text>
+          <GiDelicatePerfume width={50} color="blue" />
+          <Text fontWeight="bold" color="gray.600">
+            Sistema perfumaria
+          </Text>
         </Flex>
 
         <CloseButton display={{ base: "flex", md: "none" }} onClick={onClose} />
@@ -128,7 +130,7 @@ const NavItem = ({ icon, children, link, ...rest }: NavItemProps) => {
         role="group"
         cursor="pointer"
         _hover={{
-          bg: "#E65013",
+          bg: "blue",
           color: "white",
         }}
         {...rest}

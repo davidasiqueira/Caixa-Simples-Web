@@ -7,5 +7,5 @@ export interface Product {
   quantity: number;
   userId: string;
   productCode?: number;
-  category: 'comida' | 'bebida' | 'doce' | 'outros';
+  category: 'perfume' | 'creme' | 'body splash' | 'outros';
 }

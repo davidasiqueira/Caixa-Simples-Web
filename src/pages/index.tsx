@@ -13,7 +13,7 @@ import {
 } from "@chakra-ui/react";
 import Router from "next/router";
 import { useContext, useState } from "react";
-import { Logo } from "../components/login/Logo";
+import { GiDelicatePerfume } from "react-icons/gi";
 import { PasswordField } from "../components/login/PasswordField";
 import { AuthContext } from "../context/authContext";
 
@@ -44,7 +44,7 @@ const IndexPage = () => {
     >
       <Stack spacing="8">
         <Stack spacing="6" align="center">
-          <Logo />
+          <GiDelicatePerfume width={50} color="blue" />
           <Stack spacing={{ base: "2", md: "3" }} textAlign="center">
             <Heading size={{ base: "xs", md: "sm" }}>
               Entre na sua conta
@@ -76,8 +76,10 @@ const IndexPage = () => {
               />
             </Stack>
             <HStack justify="space-between">
-              <Checkbox defaultChecked colorScheme="orange">Remember me</Checkbox>
-              <Button variant="link" colorScheme="orange" size="sm">
+              <Checkbox defaultChecked colorScheme="blue">
+                Remember me
+              </Checkbox>
+              <Button variant="link" colorScheme="blue" size="sm">
                 Esqueceu sua senha?
               </Button>
             </HStack>
@@ -103,7 +105,7 @@ const IndexPage = () => {
                 width="110px"
                 isLoading={fazendoLogin}
                 variant="solid"
-                colorScheme="orange"
+                colorScheme="blue"
                 borderRadius="16px"
                 type="button"
                 cursor="pointer"
